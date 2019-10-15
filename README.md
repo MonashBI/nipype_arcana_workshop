@@ -8,7 +8,7 @@
 [![GitHub HitCount](http://hits.dwyl.io/MonashBI/nipype_arcana_workshop.svg)](http://hits.dwyl.io/MonashBI/nipype_arcana_workshop)
 [![Docker Hub](https://img.shields.io/docker/pulls/MonashBI/nipype_arcana_workshop.svg?maxAge=2592000)](https://hub.docker.com/r/MonashBI/nipype_arcana_workshop/)
 
-This repository contains everything for the workshop at Swinburne Uni in November 2019. There are three ways that you can interact with its content:
+This repository contains everything for the workshop at Swinburne Uni in November 2019. A large part of the materials for this course have been adpated from of "Python in neuroimaging" workshop developed by [Michael Notter](https://github.com/miykael) [Peer Herholz](https://github.com/PeerHerholz) run at [Cambridge 2018](https://nbviewer.jupyter.org/github/miykael/workshop_cambridge/blob/master/program.ipynb) and [Marburg 2019](https://nbviewer.jupyter.org/github/PeerHerholz/workshop_marburg/blob/master/program.ipynb). There are three ways that you can interact with its content:
 
 ## 1. Docker
 
