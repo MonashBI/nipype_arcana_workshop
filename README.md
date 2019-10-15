@@ -8,7 +8,7 @@
 [![GitHub HitCount](http://hits.dwyl.io/MonashBI/nipype_arcana_workshop.svg)](http://hits.dwyl.io/MonashBI/nipype_arcana_workshop)
 [![Docker Hub](https://img.shields.io/docker/pulls/MonashBI/nipype_arcana_workshop.svg?maxAge=2592000)](https://hub.docker.com/r/MonashBI/nipype_arcana_workshop/)
 
-This repository contains everything for the workshop at Swinburne Uni 2019. There are three ways that you can interact with its content:
+This repository contains everything for the workshop at Swinburne Uni in November 2019. There are three ways that you can interact with its content:
 
 ## 1. Docker (recommended)
 
