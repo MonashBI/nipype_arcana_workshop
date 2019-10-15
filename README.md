@@ -10,7 +10,7 @@
 
 This repository contains everything for the workshop at Swinburne Uni in November 2019. There are three ways that you can interact with its content:
 
-## 1. Docker (recommended)
+## 1. Docker
 
 If you want to have the full experience, use the docker container `MonashBI/nipype_arcana_workshop`. It provides the computational environment to run the notebooks on any system with all necessary dependencies installed. To install [Docker](https://www.docker.com/) on your system, follow one of those links:
 
@@ -29,9 +29,9 @@ Once docker is running on your system you can continue with downloading the dock
 Once the download finished, proceed with the following steps:
 
 1. Run the following command in a terminal: ```docker run -it --rm -p 8888:8888 MonashBI/nipype_arcana_workshop```
-1. Copy paste the link that looks like ```http://20f109eba8e4:8888/?token=0312c1ef3b61d7a44ff5346d3d150c23249a548850e13868``` into your webbrowser.
-1. Replace the hash number ```20f109eba8e4``` after `http://` with `localhost` or your local IP (probably `192.168.99.100`) if you're on windows.
-1. Once Jupyter Notebook is open, click on the `program.ipynb` notebook, and you're good to go.
+2. Copy paste the link that looks like ```http://20f109eba8e4:8888/?token=0312c1ef3b61d7a44ff5346d3d150c23249a548850e13868``` into your webbrowser.
+3. Replace the hash number ```20f109eba8e4``` after `http://` with `localhost` or your local IP (probably `192.168.99.100`) if you're on windows.
+4. Once Jupyter Notebook is open, click on the `program.ipynb` notebook, and you're good to go.
 
 And if you want to have **access to the output data created within the docker container**, add the command  `-v /path/to/your/output_folder:/output` before `MonashBI/nipype_arcana_workshop`, where `/path/to/your/output_folder` should be a free folder on your system, such as `/User/neuro/Desktop/output`.
 
@@ -59,16 +59,19 @@ And if you want to have **access to the output data created within the docker co
 
 
 
-## 2. Install everything on your system yourself
+## 2. Native installation
 
 If you don't care about some of the software dependencies, or have them already installed on your system, you can use pip or conda to create the necessary python environment to run the notebooks:
 
 ### Python 3 + Pip + Virtualenv
+
 1. Install Python 3 on your system (I would strongly recommend using a package manager like [Homebrew](http://brew.sh) (macOS), [Chocolately](http://chocolatey.org) (Windows) or apt/yum (Linux))
 2. Install virtualenv `pip3 install virtualenv`
 3. Create a virtual environment somewhere on your system `virtualenv /path/to/your/virtualenv` (replace '/' with '\' on Windows)
 4. Activate the virtual environment `source /path/to/your/virtualenv/bin/activate` (`\path\to\virtualenv\Scripts\activate` on Windows)
-5. Install requirements in virtualenv `pip3 install -r /path/to/this/repo/requirements.txt`.
+5. Install the requirements in the virtualenv `pip3 install -r https://raw.githubusercontent.com/MonashBI/nipype_arcana_workshop/master/requirements.txt`.
+
+NB: To deactivate the virtualenv afterwards run `deactivate`, and to reactivate it just repeat Step 4.
 
 ### Conda
 
