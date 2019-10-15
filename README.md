@@ -59,9 +59,18 @@ And if you want to have **access to the output data created within the docker co
 
 
 
-## 2. Conda (if you want to install everything on your system yourself)
+## 2. Install everything on your system yourself
 
-If you don't care about some of the software dependencies, or have them already installed on your system, you can use conda to create the necessary python environment to run the notebooks:
+If you don't care about some of the software dependencies, or have them already installed on your system, you can use pip or conda to create the necessary python environment to run the notebooks:
+
+### Python 3 + Pip + Virtualenv
+1. Install Python 3 on your system (I would strongly recommend using a package manager like [Homebrew](http://brew.sh) (macOS), [Chocolately](http://chocolatey.org) (Windows) or apt/yum (Linux))
+2. Install virtualenv `pip3 install virtualenv`
+3. Create a virtual environment somewhere on your system `virtualenv /path/to/your/virtualenv` (replace '/' with '\' on Windows)
+4. Activate the virtual environment `source /path/to/your/virtualenv/bin/activate` (`\path\to\virtualenv\Scripts\activate` on Windows)
+5. Install requirements in virtualenv `pip3 install -r /path/to/this/repo/requirements.txt`.
+
+### Conda
 
 1. If you haven't yet, get conda on your system: https://conda.io/miniconda.html
 2. Download the `environment.yml` file from [here].(https://github.com/MonashBI/nipype_arcana_workshop/blob/master/environment.yml)
