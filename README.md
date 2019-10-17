@@ -12,11 +12,11 @@ This repository contains everything for the workshop at Swinburne Uni in Novembe
 
 ## 1. Docker
 
-If you want to have the full experience, use the docker container `MonashBI/nipype_arcana_workshop`. It provides the computational environment to run the notebooks on any system with all necessary dependencies installed. To install [Docker](https://www.docker.com/) on your system, follow one of those links:
+Probably the easiest way to go through the workshop material is to use the docker container `MonashBI/nipype_arcana_workshop`. It provides the computational environment to run the notebooks on any system with all necessary dependencies installed. To install [Docker](https://www.docker.com/) on your system, follow one of those links:
 
  - [Ubuntu](https://docs.docker.com/engine/installation/linux/ubuntu/) or [Debian](https://docs.docker.com/engine/installation/linux/docker-ce/debian/)
  - [Windows 7/8/9/10](https://docs.docker.com/toolbox/toolbox_install_windows/) or [Windows 10Pro](https://docs.docker.com/docker-for-windows/install/)
- - [OS X (from El Capitan 10.11 on)](https://docs.docker.com/docker-for-mac/install/) or [OS X (before El Capitan 10.11)](https://docs.docker.com/toolbox/toolbox_install_mac/).
+ - [macOS (from El Capitan 10.11 on)](https://docs.docker.com/docker-for-mac/install/) or [macOS (before El Capitan 10.11)](https://docs.docker.com/toolbox/toolbox_install_mac/).
 
 Once Docker is installed, open up the docker terminal and test if it works with the command: `docker run hello-world`
 
@@ -33,7 +33,7 @@ Once the download finished, proceed with the following steps:
 3. Replace the hash number ```20f109eba8e4``` after `http://` with `localhost` or your local IP (probably `192.168.99.100`) if you're on windows.
 4. Once Jupyter Notebook is open, click on the `program.ipynb` notebook, and you're good to go.
 
-And if you want to have **access to the output data created within the docker container**, add the command  `-v /path/to/your/output_folder:/output` before `MonashBI/nipype_arcana_workshop`, where `/path/to/your/output_folder` should be a free folder on your system, such as `/User/neuro/Desktop/output`.
+And if you want to have **access to the output data created within the docker container**, add the command  `-v /path/to/your/output_folder:/output` before `MonashBI/nipype_arcana_workshop`, where `/path/to/your/output_folder` should be a free folder on your system, such as `/User/your_account/Desktop/output`.
 
 ## Some useful Docker Commands
 
@@ -71,7 +71,7 @@ If you don't care about some of the software dependencies, or have them already 
 4. Activate the virtual environment `source /path/to/your/virtualenv/bin/activate` (`\path\to\virtualenv\Scripts\activate` on Windows)
 5. Install the requirements in the virtualenv `pip3 install -r https://raw.githubusercontent.com/MonashBI/nipype_arcana_workshop/master/requirements.txt`.
 
-NB: To deactivate the virtualenv afterwards run `deactivate`, and to reactivate it just repeat Step 4.
+NB: To deactivate the virtualenv afterwards run `deactivate`, and to reactivate it again just repeat Step 4.
 
 ### Conda
 
