@@ -61,30 +61,38 @@ And if you want to have **access to the output data created within the docker co
 
 
 
-## 2. Native installation
+## 2. Native installation in virtual environment
 
-If you don't care about some of the software dependencies, or have them already installed on your system, you can use pip or conda to create the necessary python environment to run the notebooks:
+If you don't care about some of the software dependencies, or have them already installed on your system, you can use pip or conda to create the necessary python environment to run the notebooks. While it is possible to install the dependencies globally on your system it is highly recommended to virtualize your installation so it doesn't mess up any other programs that you use.
 
-### Python 3 + Pip + Virtualenv
+### Option 1: Python 3 + Pip + Venv
 
-1. Install Python 3 on your system (I would strongly recommend using a package manager like [Homebrew](http://brew.sh) (macOS), [Chocolately](http://chocolatey.org) (Windows) or apt/yum (Linux))
-2. Install virtualenv `pip3 install virtualenv`
-3. Create a virtual environment somewhere on your system `virtualenv /path/to/your/virtualenv` (replace '/' with '\' on Windows)
-4. Activate the virtual environment `source /path/to/your/virtualenv/bin/activate` (`\path\to\virtualenv\Scripts\activate` on Windows)
-5. Install the requirements in the virtualenv `pip3 install -r https://raw.githubusercontent.com/MonashBI/nipype_arcana_workshop/master/requirements.txt`.
+`Pip` and `Venv` are built in to Python 3 and are pretty easy to use. However, sometimes a Python package might depend on a non-Python library that needs
+to be installed separately. To install these non-Python dependencies it is strongly recommended to use a "package manager" such as [Homebrew](http://brew.sh) (macOS), [Chocolately](http://chocolatey.org) (Windows) or apt/yum (Linux).
 
-NB: To deactivate the virtualenv afterwards run `deactivate`, and to reactivate it again just repeat Step 4.
+1. Install Python 3 (NB: version 2 won't work) on your system using a package manager
+2. Create a virtual environment somewhere on your system `python3 -m venv /path/to/your/venv` (replace '/' with '\' on Windows)
+3. Activate the virtual environment `source /path/to/your/virtual-env/bin/activate` (`\path\to\virtual-env\Scripts\activate` on Windows)
+4. Install the requirements in the virtualenv `pip3 install -r https://raw.githubusercontent.com/MonashBI/nipype_arcana_workshop/master/requirements.txt`.
 
-### Conda
+NB: To deactivate the virtualenv afterwards run `deactivate`, and to reactivate it again just repeat Step 3.
+
+### Option 2: Conda
+
+Conda integrates package management for Python and non-Python dependencies into a single cross-platform system. It is therefore perhaps the simplest solution for native installation. However, if you install a lot of (obscure) packages you may find one that isn't supported by Conda and then it gets a bit tricky. This is why I personally prefer the Pip + Venv approach but for 99% of use cases they are interchangeable.
 
 1. If you haven't yet, get conda on your system: https://conda.io/miniconda.html
 2. Download the `environment.yml` file from [here].(https://github.com/MonashBI/nipype_arcana_workshop/blob/master/environment.yml)
 3. Open up a conda terminal (or any other terminal), and create a new conda environment with the following command: `conda env create --name workshop --file /path/to/file/environment.yml`
-4. Download the notebooks in this repository ([here](https://github.com/MonashBI/nipype_arcana_workshop/archive/master.zip)), save them in the desired location, i.e. (`Desktop/workshop`).
-5. Download the three datasets [adhd](https://www.dropbox.com/sh/wl0auzjfnp2jia3/AAChCae4sCHzB8GJ02VHGOYQa?dl=1), [ds000114](https://www.dropbox.com/sh/s0m8iz8fer3j5el/AACMamy4DyTMHMBud1IVgEDka?dl=1) and [ds000228](https://drive.google.com/file/d/1TWMVjjsBzWJvOx_uq-YVbJU4Yw0Ob0Wh/view?usp=sharing) and put them into the workshop folder, i.e. (`Desktop/workshop`).
-6. Open up a (docker) terminal, activate the conda environment with `source activate workshop` (for mac and linux) or with `activate workshop` (for windows), go into the folder where you saved the just downloaded notebooks (i.e. `Desktop/workshop`) and run the following command from the folder that contains the `program.ipynb` notebook: `jupyter notebook`
+4. Activate the conda environment with `source activate workshop` (for mac and linux) or with `activate workshop` (for windows)
 
-**Note**: This only provides you the notebooks from the workshop that are not already in the `nipype_tutorial`. Those notebooks you can download here: https://github.com/MonashBI/nipype_arcana_workshop
+### Opening up the notebook
+
+Once you have your virtual environment installed (either by `venv` or `conda`) you should download this repository and start Jupyter notebook with the following commands:
+
+1. Download the notebooks in this repository ([here](https://github.com/MonashBI/nipype_arcana_workshop/archive/master.zip)), save them in the desired location, i.e. (`Desktop/workshop`).
+2. Download the three datasets [adhd](https://www.dropbox.com/sh/wl0auzjfnp2jia3/AAChCae4sCHzB8GJ02VHGOYQa?dl=1), [ds000114](https://www.dropbox.com/sh/s0m8iz8fer3j5el/AACMamy4DyTMHMBud1IVgEDka?dl=1) and [ds000228](https://drive.google.com/file/d/1TWMVjjsBzWJvOx_uq-YVbJU4Yw0Ob0Wh/view?usp=sharing) and put them into the workshop folder, i.e. (`Desktop/workshop`).
+3. Go into the folder where you saved the just downloaded notebooks (i.e. `Desktop/workshop`) and run the following command from the folder that contains the `program.ipynb` notebook: `jupyter notebook program.ipynb`
 
 
 ## 3. Jupyter NBViewer
