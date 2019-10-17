@@ -1,4 +1,4 @@
-# Nipype, Arcana and Banana Workshop - Melbourne 2019
+# Nipype, Arcana and Banana CVL Workshop - Melbourne 2019
 
 [![GitHub issues](https://img.shields.io/github/issues/MonashBI/nipype_arcana_workshop.svg)](https://github.com/MonashBI/nipype_arcana_workshop/issues/)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/MonashBI/nipype_arcana_workshop.svg)](https://github.com/MonashBI/nipype_arcana_workshop/pulls/)
@@ -8,7 +8,9 @@
 [![GitHub HitCount](http://hits.dwyl.io/MonashBI/nipype_arcana_workshop.svg)](http://hits.dwyl.io/MonashBI/nipype_arcana_workshop)
 [![Docker Hub](https://img.shields.io/docker/pulls/MonashBI/nipype_arcana_workshop.svg?maxAge=2592000)](https://hub.docker.com/r/MonashBI/nipype_arcana_workshop/)
 
-This repository contains everything for the workshop at Swinburne Uni in November 2019. A large part of the materials for this course have been adpated from of "Python in neuroimaging" workshop developed by [Michael Notter](https://github.com/miykael) [Peer Herholz](https://github.com/PeerHerholz) run at [Cambridge 2018](https://nbviewer.jupyter.org/github/miykael/workshop_cambridge/blob/master/program.ipynb) and [Marburg 2019](https://nbviewer.jupyter.org/github/PeerHerholz/workshop_marburg/blob/master/program.ipynb). There are three ways that you can interact with its content:
+This repository contains everything for the workshop at Swinburne Uni in November 2019. A large part of the materials for this course have been adpated from a series of workshops on "Python in neuroimaging" developed and run by [Michael Notter](https://github.com/miykael) and [Peer Herholz](https://github.com/PeerHerholz) ([Cambridge 2018](https://nbviewer.jupyter.org/github/miykael/workshop_cambridge/blob/master/program.ipynb) and [Marburg 2019](https://nbviewer.jupyter.org/github/PeerHerholz/workshop_marburg/blob/master/program.ipynb)).
+
+If you have access to the CVL then all the requirements are already installed and ready for you to use. However, if you would like to run the materials from your own system there are (at least) three ways that you can configure it:
 
 ## 1. Docker
 
