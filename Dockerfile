@@ -110,6 +110,6 @@ USER neuro
 
 RUN mkdir -p ~/.jupyter && echo c.NotebookApp.ip = \"0.0.0.0\" > ~/.jupyter/jupyter_notebook_config.py
 
-WORKDIR /home/neuro
+WORKDIR /home/neuro/workshop
 
-CMD ["jupyter-notebook"]
+CMD ["jupyter-notebook", "program.ipynb"]
