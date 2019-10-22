@@ -171,8 +171,8 @@ layout: true
 class: center, middle, inverse
 ---
 # Nipype
-# Interfaces, Nodes & Workflows
-## Learn and understand the basics
+# Advanced Concepts
+## Complex workflows and custom interfaces
 ### ~90min
 
 ---
@@ -183,59 +183,57 @@ name: intro
 
 .left-column[
 
-## Basic Components
-### ~60min
+## Iteration
+### ~30min
 ]
 
 .right-column[
-Nipype is very easy to learn, but nonetheless requires the understanding of some basic concepts.
 
-Please go through the following notebooks to learn about the basic building blocks of Nipype:
+Once you have a grasp on the Nipype basics you can create (nearly) arbitrarily iteration patterns through your dataset
 
-* [`Interfaces`](notebooks/basic_interfaces.ipynb)
-* [`Nodes`](notebooks/basic_nodes.ipynb)
-* [`Workflows`](notebooks/basic_workflow.ipynb)
-* [`Visualisation`](notebooks/basic_graph_visualization.ipynb)
+Please go through the following notebooks
 
+* [`Iteration/Iterables`](notebooks/basic_iteration.ipynb)
+* [`Map Nodes`](notebooks/basic_mapnodes.ipynb)
+* [`Join Nodes`](notebooks/basic_joinnodes.ipynb)
 ]
 
 ---
 
-## Recap of Basic Building Blocks
+## Recap of Iteration - Part 1
 
-* **Interface**: Module to run well-defined tasks (i.e. smoothing, skull extraction, etc.)
-
-    ```python
-    from nipype.interfaces.fsl import BET
-    BET.help()  # To get help
-    ```
-
---
-
-* **Node**: Wraps around an interface and lets you connect them to each other
+* **Iterables** (left): Allows to iterate over a specific parameter, e.g. subject name, smoothing kernel
 
     ```python
-    from nipype import Node
-    bet = Node(BET(frac=0.3), name='bet_node')
+    isosmooth = Node(IsotropicSmooth(), name='iso_smooth')
+    isosmooth.iterables = ("fwhm", [4, 8, 16])
     ```
 
---
-
-* **Workflow**: Collection of nodes, connected in a directed fashion (i.e. graph)
+* **MapNode** (right): Allows to iterate over a specific parameter, e.g. subject name, smoothing kernel
 
     ```python
-    from Nipype import Workflow
-    wf = Workflow(name="smoothflow", base_dir="/output/working_dir")
-    wf.connect([(smooth, mask, [("out_file", "in_file")])])
+    from nipype import MapNode
+    gunzip = MapNode(Gunzip(), name='gunzip',
+                     iterfield=['in_file'])
+    gunzip.inputs.in_file = ['func01.nii.gz', 'func02.nii.gz', 'func03.nii.gz']
     ```
 
---
+  <img src="images/iterables.png" height="180">
+  <img src="images/mapnode.png" height="180">
 
-* **Graph Visualization**: Helps you to better understand a built workflow
+---
 
-    ```python
-    wf.write_graph(graph2use='colored')
-    ```
+## Recap of Iteration - Part 2
+
+* **JoinNode** (left): Like a MapNode that units again a previous `iterable` conjunction
+
+* **Synchronize** (middle): Iterate over a list of parameters in `zipped` way
+
+* **Itersource** (right):  Allows you to expand a downstream iterable based on a mapping of an upstream iterable
+
+  <img src="images/joinnode.png" width="190">
+  <img src="images/synchronize_1.png" width="250">
+  <img src="images/itersource_1.png" width="250">
 
 ---
 name: content
@@ -245,51 +243,48 @@ name: intro
 
 .left-column[
 
-## Executing & Debugging Workflows
-### ~60min
+## Custom Interfaces
+### ~30min
 ]
 
 .right-column[
 
-Once you have constructed a workflow you can run it against your data
+Although there are existing interfaces for many of the popular (and less-used) NeuroImaging toolboxes, there are times where you will want/need to write your own
 
-* [`Data Input`](notebooks/basic_data_input.ipynb)
-* [`Data Output`](notebooks/basic_data_output.ipynb)
-* [`Execution Plugins`](notebooks/basic_plugins.ipynb)
-* [`Errors & Crashes`](notebooks/basic_error_and_crashes.ipynb)
-* [`Debugging Workflows`](notebooks/basic_debug.ipynb)
+Please go through the following notebooks
+
+* [`Function Interfaces`](notebooks/basic_function_interface.ipynb)
+* [`Writing Your Own Interfaces`](notebooks/advanced_create_interfaces.ipynb)
 
 ]
 
-
 ---
 
-## Recap of Executing and Debugging - Part 1
+* **Function Interface**: Shortcut to create your own interface
 
-* **Data Input**: There are many ways to get your data into a workflow, e.g. `DataGrabber`, `SelectFinder`, etc.
+```python
+def write_parameter_to_txt(my_parameter):
+import numpy as np
+out_file = 'new_parameter.txt'
+np.savetxt(out_file, [my_parameter], fmt='%d')
+return out_file
 
---
-
-* **Data Output**: There are many ways to keep only desired workflow output, e.g. `DataSink`
-
---
-
-* **Execution Plugins**: Different ways to run a workflow, i.e. sequential, parallel, on a cluster
-
-    ```python
-    workflow.run(plugin='Linear')
-    workflow.run(plugin='MultiProc', plugin_args={'n_procs': 4})
-    workflow.run('SGEGraph', plugin_args={'qsub_args': '-q many'})
-    ```
+write_paraemter = Node(Function(input_names=['my_parameter'],
+output_names=['out_file'],
+function=write_parameter_to_txt),
+name='write_paraemter')
+```
 
 --
 
-* **Errors and crashes**: 
+* ** Python Interfaces**:
 
 --
 
-* **Debugging Workflows**: 
+* ** Command Line Interfaces**:
+--
 
+* ** Matlab Interfaces**:
 
 ---
 
