@@ -173,7 +173,7 @@ class: center, middle, inverse
 # Nipype
 # Interfaces, Nodes & Workflows
 ## Learn and understand the basics
-### ~90min
+### ~75min
 
 ---
 name: content
@@ -184,7 +184,7 @@ name: intro
 .left-column[
 
 ## Basic Components
-### ~60min
+### ~45min
 ]
 
 .right-column[
@@ -192,10 +192,10 @@ Nipype is very easy to learn, but nonetheless requires the understanding of some
 
 Please go through the following notebooks to learn about the basic building blocks of Nipype:
 
-* [`Interfaces`](notebooks/basic_interfaces.ipynb)
-* [`Nodes`](notebooks/basic_nodes.ipynb)
-* [`Workflows`](notebooks/basic_workflow.ipynb)
-* [`Visualisation`](notebooks/basic_graph_visualization.ipynb)
+* [`Interfaces`](../../notebooks/notebooks/basic_interfaces.ipynb)
+* [`Nodes`](../../notebooks/notebooks/basic_nodes.ipynb)
+* [`Workflows`](../../notebooks/notebooks/basic_workflow.ipynb)
+* [`Visualisation`](../../notebooks/notebooks/basic_graph_visualization.ipynb)
 
 ]
 
@@ -246,18 +246,20 @@ name: intro
 .left-column[
 
 ## Executing & Debugging Workflows
-### ~60min
+### ~30min
 ]
 
 .right-column[
 
-Once you have constructed a workflow you can run it against your data
+Once you have constructed a workflow you can run it against your data.
 
-* [`Data Input`](notebooks/basic_data_input.ipynb)
-* [`Data Output`](notebooks/basic_data_output.ipynb)
-* [`Execution Plugins`](notebooks/basic_plugins.ipynb)
-* [`Errors & Crashes`](notebooks/basic_error_and_crashes.ipynb)
-* [`Debugging Workflows`](notebooks/basic_debug.ipynb)
+** Note: ** If you don't get through the `Data Input/Output` notebooks don't worry as Arcana can handle this for you :)
+
+* [`Execution Plugins`](../../notebooks/notebooks/basic_plugins.ipynb)
+* [`Errors & Crashes`](../../notebooks/notebooks/basic_error_and_crashes.ipynb)
+* [`Debugging Workflows`](../../notebooks/notebooks/basic_debug.ipynb)
+* [`Data Input`](../../notebooks/notebooks/basic_data_input.ipynb) (optional)
+* [`Data Output`](../../notebooks/notebooks/basic_data_output.ipynb) (optional)
 
 ]
 
@@ -266,13 +268,7 @@ Once you have constructed a workflow you can run it against your data
 
 ## Recap of Executing and Debugging - Part 1
 
-* **Data Input**: There are many ways to get your data into a workflow, e.g. `DataGrabber`, `SelectFinder`, etc.
 
---
-
-* **Data Output**: There are many ways to keep only desired workflow output, e.g. `DataSink`
-
---
 
 * **Execution Plugins**: Different ways to run a workflow, i.e. sequential, parallel, on a cluster
 
@@ -284,12 +280,28 @@ Once you have constructed a workflow you can run it against your data
 
 --
 
-* **Errors and crashes**: 
+* **Errors and crashes**: Crashfiles can be viewed using the `nipypecli`
+
+    ```python
+    nipypecli crash <your-crash-file>
+    ```
 
 --
 
-* **Debugging Workflows**: 
+* **Debugging Workflows**: Enable debug mode
 
+    ```python
+    from nipype import config
+    config.enable_debug_mode()
+    ```
+
+--
+
+* **Data Input**: There are many ways to get your data into a workflow, e.g. `DataGrabber`, `SelectFinder`, etc.
+
+--
+
+* **Data Output**: There are many ways to keep only desired workflow output, e.g. `DataSink`
 
 ---
 

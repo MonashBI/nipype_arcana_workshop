@@ -65,6 +65,8 @@ RUN conda install -y -q --name neuro bokeh \
 # Download workshop required part of the dataset
 #-----------------------------------------------
 
+RUN rm -rf /opt/conda/pkgs/*
+
 USER neuro
 
 RUN bash -c 'source activate neuro \
@@ -80,14 +82,6 @@ RUN bash -c 'source activate neuro \
 
 USER root
 
-COPY ["notebooks", "/home/neuro/workshop/notebooks"]
-
-COPY ["slides", "/home/neuro/workshop/slides"]
-
-COPY ["program.ipynb", "/home/neuro/workshop/program.ipynb"]
-
-COPY ["test_notebooks.py", "/home/neuro/workshop/test_notebooks.py"]
-
 RUN curl -J -L -o /data/ds000228.zip https://www.dropbox.com/s/ue1wuoaryvp6iw1/ds000228.zip?dl=0 \
     && mkdir /data/ds000228 \
     && unzip /data/ds000228.zip -d /data/ds000228/ -x / \
@@ -102,14 +96,20 @@ RUN curl -J -L -o /data/adhd_data.zip https://www.dropbox.com/sh/wl0auzjfnp2jia3
 
 RUN chown -R neuro /data/adhd
 
-RUN chown -R neuro /home/neuro/workshop
+COPY ["test_notebooks.py", "/home/neuro/workshop/test_notebooks.py"]
 
-RUN rm -rf /opt/conda/pkgs/*
+COPY ["program.ipynb", "/home/neuro/workshop/program.ipynb"]
+
+COPY ["notebooks", "/home/neuro/workshop/notebooks"]
+
+COPY ["slides", "/home/neuro/workshop/slides"]
+
+RUN chown -R neuro /home/neuro/workshop
 
 USER neuro
 
 RUN mkdir -p ~/.jupyter && echo c.NotebookApp.ip = \"0.0.0.0\" > ~/.jupyter/jupyter_notebook_config.py
 
-WORKDIR /home/neuro/workshop
+WORKDIR /home/neuro
 
-CMD ["jupyter-notebook", "program.ipynb"]
+CMD ["jupyter-notebook", "workshop/program.ipynb"]

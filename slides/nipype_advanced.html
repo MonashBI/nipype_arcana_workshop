@@ -173,7 +173,7 @@ class: center, middle, inverse
 # Nipype
 # Advanced Concepts
 ## Complex workflows and custom interfaces
-### ~90min
+### ~60min
 
 ---
 name: content
@@ -193,9 +193,9 @@ Once you have a grasp on the Nipype basics you can create (nearly) arbitrarily i
 
 Please go through the following notebooks
 
-* [`Iteration/Iterables`](notebooks/basic_iteration.ipynb)
-* [`Map Nodes`](notebooks/basic_mapnodes.ipynb)
-* [`Join Nodes`](notebooks/basic_joinnodes.ipynb)
+* [`Iteration/Iterables`](../../notebooks/notebooks/basic_iteration.ipynb)
+* [`Map Nodes`](../../notebooks/notebooks/basic_mapnodes.ipynb)
+* [`Join Nodes`](../../notebooks/notebooks/basic_joinnodes.ipynb)
 ]
 
 ---
@@ -253,38 +253,79 @@ Although there are existing interfaces for many of the popular (and less-used) N
 
 Please go through the following notebooks
 
-* [`Function Interfaces`](notebooks/basic_function_interface.ipynb)
-* [`Writing Your Own Interfaces`](notebooks/advanced_create_interfaces.ipynb)
+* [`Function Interfaces`](../../notebooks/notebooks/basic_function_interface.ipynb)
+* [`Writing Your Own Interfaces`](../../notebooks/notebooks/advanced_create_interfaces.ipynb)
 
 ]
 
 ---
 
+## Recap of Custom Interfaces - Part 1
+
 * **Function Interface**: Shortcut to create your own interface
 
-```python
-def write_parameter_to_txt(my_parameter):
-import numpy as np
-out_file = 'new_parameter.txt'
-np.savetxt(out_file, [my_parameter], fmt='%d')
-return out_file
+    ```python
+    def write_parameter_to_txt(my_parameter):
+        import numpy as np
+        out_file = 'new_parameter.txt'
+        np.savetxt(out_file, [my_parameter], fmt='%d')
+        return out_file
 
-write_paraemter = Node(Function(input_names=['my_parameter'],
-output_names=['out_file'],
-function=write_parameter_to_txt),
-name='write_paraemter')
-```
+    write_parameter = Node(Function(input_names=['my_parameter'],
+    output_names=['out_file'],
+    function=write_parameter_to_txt),
+    name='write_parameter')
+    ```
 
---
-
-* ** Python Interfaces**:
 
 --
 
-* ** Command Line Interfaces**:
---
+* ** Command Line Interfaces**: Extend the `CommandLine` interface base class
 
-* ** Matlab Interfaces**:
+    ```python
+    from nipype.interfaces.base import CommandLineInputSpec, File
+    
+    class TransformInfoInputSpec(CommandLineInputSpec):
+    in_file = File(exists=True, mandatory=True, argstr='%s',
+    position=0, desc='the input transform file')
+
+    class TransformInfo(CommandLine):
+        _cmd = 'antsTransformInfo'
+        input_spec = TransformInfoInputSpec
+    ```
+
+
+---
+
+## Recap of Custom Interfaces - Part 2
+
+* ** Python Interfaces**: Use `Function` interface for simple cases, extend
+`BaseInterface` and implement `_run_interface` and `_list_outputs` for complex
+
+    ```python
+    class TranslateImage(BaseInterface):
+      input_spec = TranslateImageInputSpec
+      output_spec = TranslateImageOutputSpec
+
+      def _run_interface(self, runtime):
+
+        # Call our python code here:
+        translate_image(
+          self.inputs.in_file,
+          self.inputs.translation,
+          self.inputs.out_file)
+        # And we are done
+        return runtime
+
+      def _list_outputs(self):
+        return {'out_file': self.inputs.out_file}
+    ```
+
+---
+
+## Recap of Custom Interfaces - Part 3
+
+* ** Matlab Interfaces**: Either extend `MatlabCommand` or `BaseInterface` and explicitly call matlab command
 
 ---
 
