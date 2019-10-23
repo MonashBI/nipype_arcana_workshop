@@ -170,9 +170,8 @@ name: inverse
 layout: true
 class: center, middle, inverse
 ---
-# Nipype
-# Interfaces, Nodes & Workflows
-## Learn and understand the basics
+# Banana
+## Brain imAgiNg Analysis iN Arcana
 ### ~60min
 
 ---
@@ -183,59 +182,25 @@ name: intro
 
 .left-column[
 
-## Basic Components
+## Command Line Interface
 ### ~30min
 ]
 
 .right-column[
-Nipype is very easy to learn, but nonetheless requires the understanding of some basic concepts.
-
-Please go through the following notebooks to learn about the basic building blocks of Nipype:
-
-* [`Interfaces`](../../notebooks/notebooks/basic_interfaces.ipynb)
-* [`Nodes`](../../notebooks/notebooks/basic_nodes.ipynb)
-* [`Workflows`](../../notebooks/notebooks/basic_workflow.ipynb)
-* [`Visualisation`](../../notebooks/notebooks/basic_graph_visualization.ipynb)
+Using the Banana command line interface is quick and easy. Please go through
+the [`Banana CLI Notebook`](../../notebooks/notebooks/arcana_application.ipynb)
 
 ]
 
 ---
 
-## Recap of Basic Building Blocks
+## Recap of Banana Command Line Interface
 
-* **Interface**: Module to run well-defined tasks (i.e. smoothing, skull extraction, etc.)
-
-    ```python
-    from nipype.interfaces.fsl import BET
-    BET.help()  # To get help
-    ```
+* **Menu**: List all the derivatives that can be derived from your dataset
 
 --
 
-* **Node**: Wraps around an interface and lets you connect them to each other
-
-    ```python
-    from nipype import Node
-    bet = Node(BET(frac=0.3), name='bet_node')
-    ```
-
---
-
-* **Workflow**: Collection of nodes, connected in a directed fashion (i.e. graph)
-
-    ```python
-    from Nipype import Workflow
-    wf = Workflow(name="smoothflow", base_dir="/output/working_dir")
-    wf.connect([(smooth, mask, [("out_file", "in_file")])])
-    ```
-
---
-
-* **Graph Visualization**: Helps you to better understand a built workflow
-
-    ```python
-    wf.write_graph(graph2use='colored')
-    ```
+* **Derive**: Derive a derivative
 
 ---
 name: content
@@ -245,63 +210,45 @@ name: intro
 
 .left-column[
 
-## Executing & Debugging Workflows
+## Aggregating and Extending Study Classes
 ### ~30min
 ]
 
 .right-column[
 
-Once you have constructed a workflow you can run it against your data.
-
-** Note: ** If you don't get through the `Data Input/Output` notebooks don't worry as Arcana can handle this for you :)
-
-* [`Execution Plugins`](../../notebooks/notebooks/basic_plugins.ipynb)
-* [`Errors & Crashes`](../../notebooks/notebooks/basic_error_and_crashes.ipynb)
-* [`Debugging Workflows`](../../notebooks/notebooks/basic_debug.ipynb)
-* [`Data Input`](../../notebooks/notebooks/basic_data_input.ipynb) (optional)
-* [`Data Output`](../../notebooks/notebooks/basic_data_output.ipynb) (optional)
+It is possible to customise Banana to your project by aggregating
+and extending existing classes [`Aggregating & Extending Study Classes Notebook`](../../notebooks/notebooks/banana_extend.ipynb) notebook
 
 ]
 
 
 ---
 
-## Recap of Executing and Debugging - Part 1
+## Recap of Banana Command Line Interface
 
 
-
-* **Execution Plugins**: Different ways to run a workflow, i.e. sequential, parallel, on a cluster
-
-    ```python
-    workflow.run(plugin='Linear')
-    workflow.run(plugin='MultiProc', plugin_args={'n_procs': 4})
-    workflow.run('SGEGraph', plugin_args={'qsub_args': '-q many'})
-    ```
-
---
-
-* **Errors and crashes**: Crashfiles can be viewed using the `nipypecli`
+* **Aggregating Study Classes**: Constrast-specific study classes can be aggregated within MultiStudy classes
 
     ```python
-    nipypecli crash <your-crash-file>
+    class T1AndDwiStudy(MultiStudy):
+
+        add_substudy_specs = [
+            SubStudySpec('t1', T1Study),
+            SubStudySpec('dwi', DwiStudy, map={'coreg_ref': 't1_magnitude'})]
     ```
 
---
-
-* **Debugging Workflows**: Enable debug mode
+* **Extending Clases**: Banana classes can be extended to add new derivatives and methods to produce publication outputs.
 
     ```python
-    from nipype import config
-    config.enable_debug_mode()
+    class MyPaperStudy(DwiStudy):
+        
+        def connectome_figure(self, output_fig):
+            ...
+            plt.imshow(connectome_matrix)
+            plt.savefig(output_fig)
+
     ```
 
---
-
-* **Data Input**: There are many ways to get your data into a workflow, e.g. `DataGrabber`, `SelectFinder`, etc.
-
---
-
-* **Data Output**: There are many ways to keep only desired workflow output, e.g. `DataSink`
 
 ---
 

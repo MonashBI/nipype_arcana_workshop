@@ -170,9 +170,8 @@ name: inverse
 layout: true
 class: center, middle, inverse
 ---
-# Nipype
-# Interfaces, Nodes & Workflows
-## Learn and understand the basics
+# Arcana
+## Object-orientated analysis workflows
 ### ~60min
 
 ---
@@ -183,58 +182,64 @@ name: intro
 
 .left-column[
 
-## Basic Components
+## Applying Study Classes
 ### ~30min
 ]
 
 .right-column[
-Nipype is very easy to learn, but nonetheless requires the understanding of some basic concepts.
 
-Please go through the following notebooks to learn about the basic building blocks of Nipype:
-
-* [`Interfaces`](../../notebooks/notebooks/basic_interfaces.ipynb)
-* [`Nodes`](../../notebooks/notebooks/basic_nodes.ipynb)
-* [`Workflows`](../../notebooks/notebooks/basic_workflow.ipynb)
-* [`Visualisation`](../../notebooks/notebooks/basic_graph_visualization.ipynb)
+Please go through the [`Applying Arcana Study Classes Notebook`](../../notebooks/notebooks/arcana_application.ipynb) to 
+learn how to apply Arcana Study classes to a dataset.
 
 ]
 
 ---
 
-## Recap of Basic Building Blocks
+## Recap of Applying Arcana Study Classes - Part 1
 
-* **Interface**: Module to run well-defined tasks (i.e. smoothing, skull extraction, etc.)
+* **Repository**: The place where your data is stored
 
     ```python
-    from nipype.interfaces.fsl import BET
-    BET.help()  # To get help
+    from arcana import BasicRepo
+    repo = BasicRepo('/path/to/your/directory')
     ```
 
 --
 
-* **Node**: Wraps around an interface and lets you connect them to each other
+* **Processor**: How the data is to be processed
 
     ```python
-    from nipype import Node
-    bet = Node(BET(frac=0.3), name='bet_node')
+    from arcana import LinearProc
+    processor = LinearProc('/path/to/work/dir', reprocess=True)
     ```
 
 --
 
-* **Workflow**: Collection of nodes, connected in a directed fashion (i.e. graph)
+* **Environment**: The software environment (i.e. toolkit versions) used
 
     ```python
-    from Nipype import Workflow
-    wf = Workflow(name="smoothflow", base_dir="/output/working_dir")
-    wf.connect([(smooth, mask, [("out_file", "in_file")])])
+    from arcana import ModulesEnv
+    environment = ModulesEnv(name_map={'fsl': 'fsl-parallel'})
     ```
+
+---
+
+## Recap of Applying Arcana Study Classes - Part 2
+
+* **Inputs**: Mapping from files and fields in your dataset to the `data specification` of the Study class
+
+    ```python
+    from arcana import InputFilesets
+    inputs = [InputFilesets('magnitude', '.*t1.*')]
+    ```
+
 
 --
 
-* **Graph Visualization**: Helps you to better understand a built workflow
+* **Study**: The object that ties together all aspects of the analysis
 
     ```python
-    wf.write_graph(graph2use='colored')
+    study = Study(name='my_study', repo, processor, environment, inputs)
     ```
 
 ---
@@ -245,64 +250,66 @@ name: intro
 
 .left-column[
 
-## Executing & Debugging Workflows
+## Designing Study Classes
 ### ~30min
 ]
 
 .right-column[
 
-Once you have constructed a workflow you can run it against your data.
-
-** Note: ** If you don't get through the `Data Input/Output` notebooks don't worry as Arcana can handle this for you :)
-
-* [`Execution Plugins`](../../notebooks/notebooks/basic_plugins.ipynb)
-* [`Errors & Crashes`](../../notebooks/notebooks/basic_error_and_crashes.ipynb)
-* [`Debugging Workflows`](../../notebooks/notebooks/basic_debug.ipynb)
-* [`Data Input`](../../notebooks/notebooks/basic_data_input.ipynb) (optional)
-* [`Data Output`](../../notebooks/notebooks/basic_data_output.ipynb) (optional)
+Please learn how to design analyses in Arcana by going through the
+[`Designing Study Classes Notebook`](../../notebooks/notebooks/arcana_design.ipynb)
 
 ]
 
 
 ---
 
-## Recap of Executing and Debugging - Part 1
+## Recap of designing Study classes - Part 1
 
 
-
-* **Execution Plugins**: Different ways to run a workflow, i.e. sequential, parallel, on a cluster
-
-    ```python
-    workflow.run(plugin='Linear')
-    workflow.run(plugin='MultiProc', plugin_args={'n_procs': 4})
-    workflow.run('SGEGraph', plugin_args={'qsub_args': '-q many'})
-    ```
-
---
-
-* **Errors and crashes**: Crashfiles can be viewed using the `nipypecli`
+* **Data specification**: lists all files and scalar fields that are inputs/outputs/intermediate-derivatives of the analysis and the pipelines that generate them
 
     ```python
-    nipypecli crash <your-crash-file>
+    class MyStudy(Study):
+
+        add_data_specs = [
+            FilesetSpec('magnitude', STD_IMAGE_FORMATS,
+                        desc="The magnitude image"),
+            FilesetSpec('thresholded', nifti_gz_format, 'threshold_pipeline',
+                        desc="A thresholded magnitude Image")]
     ```
 
---
-
-* **Debugging Workflows**: Enable debug mode
+* **Parameter specification**: lists all parameters that are used to in the analysis
 
     ```python
-    from nipype import config
-    config.enable_debug_mode()
+    class MyStudy(Study):
+        ...
+        
+        add_param_specs = [
+            ParamSpec('threshold', 0.5)]
     ```
 
---
+---
 
-* **Data Input**: There are many ways to get your data into a workflow, e.g. `DataGrabber`, `SelectFinder`, etc.
+## Recap of designing Study classes - Part 2
 
---
+* **Pipeline getters**: methods that generate modular pipelines
 
-* **Data Output**: There are many ways to keep only desired workflow output, e.g. `DataSink`
+    ```python
+    class MyStudy(Study):
+        ...
 
+        def threshold_pipeline(self, **name_maps):
+            pipeline = self.new_pipeline('threshold', name_maps=name_maps)
+            pipeline.add('mrthreshold',
+                         mrtrix.MRThreshold(
+                             abs=self.parameter('threshold')),
+                         inputs={
+                             'in_file': ('magnitude', mrtrix_image_format)},
+                         outputs={
+                             'threshold': ('out_file', mrtrix_image_format)})
+            return pipeline
+    ```
 ---
 
 layout: true

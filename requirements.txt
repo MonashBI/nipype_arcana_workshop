@@ -1,8 +1,17 @@
+fury
+nitime 
+nibabel
+nilearn
+nistats
+pingouin==0.2.4
+matplotlib==3.0.3
+nose
+git+https://github.com/bids-standard/pybids.git
+scipy==1.2
 ipython
 jupyter
 jupyterlab
 jupyter_contrib_nbextensions
-matplotlib
 nbconvert
 nbformat
 numpy
@@ -10,7 +19,6 @@ pandas
 pytest
 scikit-image
 scikit-learn
-scipy
 seaborn
 statsmodels
 traits
