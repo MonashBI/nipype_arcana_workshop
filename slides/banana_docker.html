@@ -170,8 +170,8 @@ name: inverse
 layout: true
 class: center, middle, inverse
 ---
-# Banana
-## Brain imAgiNg Analysis iN Arcana
+# Dockerising Banana
+## Using Docker to Run Banana Workflows
 ### ~60min
 
 ---
@@ -182,25 +182,26 @@ name: intro
 
 .left-column[
 
-## Command Line Interface
+## Dockerising Banana workflows
 ### ~30min
 ]
 
 .right-column[
-Using the Banana command line interface is quick and easy. Please go through
-the [`Banana CLI Notebook`](../../notebooks/notebooks/arcana_application.ipynb)
+Running Banana through a Docker container is pretty straightforward.
+
+Please go through the [`Dockerising Banana Workflows Notebook`](../../notebooks/notebooks/banana_docker.ipynb) to see how.
 
 ]
 
 ---
 
-## Recap of Banana Command Line Interface
+## Recap of Dockerizing Banana Workflows
 
-* **Menu**: List all the derivatives that can be derived from your dataset
+* **Pulling from Docker Hub**: Pre-built images can be pulled from Docker Hub
 
 --
 
-* **Derive**: Derive a derivative
+* **Building local copy**: Use `banana crate` to create a containerised version of your workflow
 
 ---
 name: content
@@ -210,47 +211,27 @@ name: intro
 
 .left-column[
 
-## Aggregating and Extending Study Classes
+## Running Banana in XNAT CS
 ### ~30min
 ]
 
 .right-column[
 
-It is possible to customise Banana to your project by aggregating
-and extending existing classes [`Aggregating & Extending Study Classes Notebook`](../../notebooks/notebooks/banana_extend.ipynb) notebook
+Learn how to fully automate your analysis by using XNAT's Container Service to trigger Banana workflows
+in the [Running Banana in XNAT CS Notebook](../../notebooks/notebooks/banana_xnat_cs.ipynb)
 
 ]
 
 
 ---
 
-## Recap of Banana Command Line Interface
+## Recap of Running Banana in XNAT CS
 
-
-* **Aggregating Study Classes**: Constrast-specific study classes can be aggregated within MultiStudy classes
-
-    ```python
-    class T1AndDwiStudy(MultiStudy):
-
-        add_substudy_specs = [
-            SubStudySpec('t1', T1Study),
-            SubStudySpec('dwi', DwiStudy, map={'coreg_ref': 't1_magnitude'})]
-    ```
+* **Publishing your workflow on Docker Hub**: Set up an account on Docker Hub and publish your workflow
 
 --
 
-* **Extending Clases**: Banana classes can be extended to add new derivatives and methods to produce publication outputs.
-
-    ```python
-    class MyPaperStudy(DwiStudy):
-        
-        def connectome_figure(self, output_fig):
-            ...
-            plt.imshow(connectome_matrix)
-            plt.savefig(output_fig)
-
-    ```
-
+* **Installing Workflows in XNAT**: Pull the container from and configure the command JSON
 
 ---
 
