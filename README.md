@@ -107,4 +107,4 @@ Once you have your virtual environment installed (either by `venv` or `conda`) y
 
 ## 3. Jupyter NBViewer
 
-All the notebooks (but not the slides) can be looked at via [Jupyter nbviewer](https://nbviewer.jupyter.org/github/MonashBI/nipype_arcana_workshop/blob/master/program.ipynb). Like this you can see everything but cannot really interact with the scripts or run the code.
+All the notebooks can be looked at via [Jupyter nbviewer](https://nbviewer.jupyter.org/github/MonashBI/nipype_arcana_workshop/blob/master/program.ipynb). Like this you can see everything but cannot really interact with the scripts or run the code.
