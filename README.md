@@ -81,7 +81,7 @@ you can use pip or conda to create the necessary python environment to run the n
 to be installed separately. To install these non-Python dependencies it is strongly recommended to use a "package manager" such as [Homebrew](http://brew.sh) (macOS), [Chocolately](http://chocolatey.org) (Windows) or apt/yum (Linux).
 
 1. Install Python 3 (NB: version 2 won't work) on your system using a package manager
-2. Create a virtual environment somewhere on your system `python3 -m venv /path/to/your/venv` (replace '/' with '\' on Windows)
+2. Create a virtual environment somewhere on your system `python3 -m venv /path/to/your/venv` (replace '/' with '\\' on Windows)
 3. Activate the virtual environment `source /path/to/your/virtual-env/bin/activate` (`\path\to\virtual-env\Scripts\activate` on Windows)
 4. Install the requirements in the virtualenv `pip3 install -r https://raw.githubusercontent.com/MonashBI/nipype_arcana_workshop/master/requirements.txt`.
 
