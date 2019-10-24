@@ -73,6 +73,6 @@ RUN ln -s /data/ds000114 notebooks/data/ds000114
 
 RUN mkdir -p ~/.jupyter && echo 'c.NotebookApp.ip = "0.0.0.0"' > ~/.jupyter/jupyter_notebook_config.py
 
-WORKDIR /home/neuro
+WORKDIR /home/neuro/workshop
 
-CMD ["jupyter-notebook", "workshop/program.ipynb"]
+CMD ["jupyter-notebook", "program.ipynb"]
