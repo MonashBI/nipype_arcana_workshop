@@ -63,7 +63,15 @@ And if you want to have **access to the output data created within the docker co
 
 ## 2. Native installation in virtual environment
 
-If you don't care about some of the software dependencies, or have them already installed on your system, you can use pip or conda to create the necessary python environment to run the notebooks. While it is possible to install the dependencies globally on your system it is highly recommended to virtualize your installation so it doesn't mess up any other programs that you use.
+If you already have the following software dependencies installed on your workstation (or are only doing the non-neuroimaging notebooks):
+
+* convert3d >=1.0
+* ants >=2.3
+* fsl >=6.0
+* graphviz >=2.30
+* matlab >=r2018a
+
+you can use pip or conda to create the necessary python environment to run the notebooks. While it is possible to install the dependencies globally on your system it is highly recommended to virtualize your installation so it doesn't mess up any other programs that you use.
 
 ### Option 1: Python 3 + Pip + Venv
 
@@ -88,11 +96,11 @@ Conda integrates package management for Python and non-Python dependencies into 
 
 ### Opening up the notebook
 
-Once you have your virtual environment installed (either by `venv` or `conda`) you should download this repository and start Jupyter notebook with the following commands:
+Once you have your virtual environment installed (either by `venv` or `conda`) you should clone this repository, download the test data and start Jupyter notebook with the following commands:
 
-1. Download the notebooks in this repository ([here](https://github.com/MonashBI/nipype_arcana_workshop/archive/master.zip)), save them in the desired location, i.e. (`Desktop/workshop`).
-2. Download the three datasets [adhd](https://www.dropbox.com/sh/wl0auzjfnp2jia3/AAChCae4sCHzB8GJ02VHGOYQa?dl=1), [ds000114](https://www.dropbox.com/sh/s0m8iz8fer3j5el/AACMamy4DyTMHMBud1IVgEDka?dl=1) and [ds000228](https://drive.google.com/file/d/1TWMVjjsBzWJvOx_uq-YVbJU4Yw0Ob0Wh/view?usp=sharing) and put them into the workshop folder, i.e. (`Desktop/workshop`).
-3. Go into the folder where you saved the just downloaded notebooks (i.e. `Desktop/workshop`) and run the following command from the folder that contains the `program.ipynb` notebook: `jupyter notebook program.ipynb`
+1. Using [Git](https://git-scm.com), clone [this repository](https://github.com/MonashBI/nipype_arcana_workshop/archive/master.zip) somewhere sensible on your workstation i.e. (`~/git/arcana-workshop`).
+2. Download the ["A test-retest fMRI dataset for motor, language and spatial attention functions" dataset by Gorgolewski et al. from OpenNeuro.org](https://openneuro.org/datasets/ds000114/versions/00003) and save it as 'ds000114' in the 'notebooks/data' sub-directory of the cloned repository.
+3. Go to the root of the cloned repo and run the following command from the folder that contains the `program.ipynb` notebook: `jupyter notebook program.ipynb`. This should open a neuro window in your browser with the address 'http://localhost:8888'.
 
 
 ## 3. Jupyter NBViewer
