@@ -6,7 +6,7 @@
 [![GitHub Commits](https://github-basic-badges.herokuapp.com/commits/MonashBI/nipype_arcana_workshop.svg)](https://github.com/MonashBI/nipype_arcana_workshop/commits/master)
 [![GitHub size](https://github-size-badge.herokuapp.com/MonashBI/nipype_arcana_workshop.svg)](https://github.com/MonashBI/nipype_arcana_workshop/archive/master.zip)
 [![GitHub HitCount](http://hits.dwyl.io/MonashBI/nipype_arcana_workshop.svg)](http://hits.dwyl.io/MonashBI/nipype_arcana_workshop)
-[![Docker Hub](https://img.shields.io/docker/pulls/MonashBI/nipype_arcana_workshop.svg?maxAge=2592000)](https://hub.docker.com/r/MonashBI/nipype_arcana_workshop/)
+[![Docker Hub](https://img.shields.io/docker/pulls/monashbi/nipype_arcana_workshop.svg?maxAge=2592000)](https://hub.docker.com/r/monashbi/nipype_arcana_workshop/)
 
 This repository contains everything for the *Automating Neuroimaging Analysis Workflows with Nipype, Arcana and Banana* workshop to be held at Swinburne University on the 15 of November 2019 [(registration)](https://www.eventbrite.com.au/e/automating-neuroimaging-analysis-workflows-with-nipype-arcana-and-banana-registration-69832758661). Many of the materials for this course have been adpated from [Michael Notter's](https://github.com/miykael) excellent [Nipype tutorial](https://github.com/miykael/nipype_tutorial) and a series of workshops he and [Peer Herholz](https://github.com/PeerHerholz) have run on "Python in neuroimaging" ([Cambridge 2018](https://nbviewer.jupyter.org/github/miykael/workshop_cambridge/blob/master/program.ipynb) and [Marburg 2019](https://nbviewer.jupyter.org/github/PeerHerholz/workshop_marburg/blob/master/program.ipynb)).
 
