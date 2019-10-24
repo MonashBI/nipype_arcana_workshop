@@ -6,18 +6,7 @@ FROM miykael/nipype_tutorial:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-#--------------------------------------
-# Update system applications for PyMVPA
-#--------------------------------------
-
 USER root
-
-# Install software for PyMVPA
-RUN apt-get update -qq \
-    && apt-get install -y -q --no-install-recommends \
-           swig \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #------------------------------------
 # Install HarvardOxford atlas via FSL
@@ -82,7 +71,7 @@ USER neuro
 
 RUN ln -s /data/ds000114 notebooks/data/ds000114
 
-RUN mkdir -p ~/.jupyter && echo c.NotebookApp.ip = \"0.0.0.0\" > ~/.jupyter/jupyter_notebook_config.py
+RUN mkdir -p ~/.jupyter && echo 'c.NotebookApp.ip = "0.0.0.0"' > ~/.jupyter/jupyter_notebook_config.py
 
 WORKDIR /home/neuro
 
