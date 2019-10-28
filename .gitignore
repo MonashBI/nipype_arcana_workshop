@@ -1,3 +1,4 @@
 .ipynb_checkpoints
 .DS_Store
 notebooks/data/ds000114
+*-checkpoint.ipynb
