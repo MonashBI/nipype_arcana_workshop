@@ -2,3 +2,5 @@
 .DS_Store
 notebooks/data/ds000114
 *-checkpoint.ipynb
+notebooks/nilearn_cache
+notebooks/data/atlases/HarvardOxford/HarvardOxford-cort-maxprob-thr25-1mm.nii.gz
