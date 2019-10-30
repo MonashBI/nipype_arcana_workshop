@@ -2,3 +2,4 @@
 .DS_Store
 *-checkpoint.ipynb
 notebooks/nilearn_cache
+notebooks/preproc*
