@@ -416,9 +416,11 @@ name: oo_design_why
     * Echos how humans understand our environment
 
 * e.g. A traffic simulator might decompose the data and rules of a road system into classes of objects with different attributes, states and actions:
-  * Cars &rarr; driving/reaction speed, travel distance, prob. of turn/crash
-  * Traffic-lights &rarr; frequency, prob. of breaking down
-  * Roads &rarr; Number of lanes, surface
+  * Cars &rarr; max. acc/deceleration, location, current speed
+  * Drivers &rarr; reaction speed, tiredness/intoxication, *prob. of accident*
+  * Routes &rarr; start and endpoints, *calculate tolls*
+  * Traffic-lights &rarr; scheduled frequency, whether currently broken
+  * Roads &rarr; Number of lanes, surface, load, *when roadworks required*
 
 
 <img src="images/traffic.jpg" width="75%" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
@@ -459,9 +461,14 @@ name: oo_encapsulation
 
 ## Encapsulation
 
-*
+* Allows interactions with other objects/modules in a safe manner
+    * Prevents internal variables of an object getting into a non-sensical states
 
-<img src="images/encapsulation.png" width="75%"
+* *Note:* Encapsulation is not enforced in Python
+    * "We're all consenting adults here" -- Guido Van Rossum, BDFL
+    * Indicated by strong naming convention using names starting with '_'
+
+<img src="images/encapsulation.png" width="100%"
   style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
 
 ---
@@ -472,7 +479,7 @@ name: oo_abstraction
 
 *
 
-<img src="images/abstraction.png" width="75%"
+<img src="images/abstraction.png" width="100%"
   style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
 
 ---
@@ -482,7 +489,7 @@ name: oo_inheritance
 
 *
 
-<img src="images/inheritance.png" width="75%"
+<img src="images/inheritance.png" width="100%"
   style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
 
 ---
@@ -493,7 +500,7 @@ name: oo_polymorphism
 
 *
 
-<img src="images/polymorphism.png" width="75%"
+<img src="images/polymorphism.png" width="100%"
   style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
 
 ---
