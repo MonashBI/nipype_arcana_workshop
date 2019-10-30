@@ -13,7 +13,7 @@ working_dir = 'workingdir'
 subject_list = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10']
 
 # Location of template file
-template = 'data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c/1mm_T1.nii.gz'
+template = op.abspath('data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c/1mm_T1.nii.gz')
 # or alternatively template = Info.standard_image('MNI152_T1_1mm.nii.gz')
 
 # Registration - computes registration between subject's anatomy & the MNI template
