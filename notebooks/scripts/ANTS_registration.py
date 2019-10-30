@@ -1,5 +1,5 @@
 # Import modules
-from os.path import join as opj
+from os.path import join as opj, expanduser
 from nipype.interfaces.ants import Registration
 from nipype.interfaces.utility import IdentityInterface
 from nipype.interfaces.io import SelectFiles, DataSink
@@ -7,7 +7,7 @@ from nipype import Workflow, Node
 from nipype.interfaces.fsl import Info
 
 # Specify variables
-experiment_dir = '/output'
+experiment_dir = expanduser('output/')
 output_dir = 'antsdir'
 working_dir = 'workingdir'
 subject_list = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10']
