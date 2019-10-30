@@ -225,7 +225,7 @@ Please go through the following notebooks to learn about the basic building bloc
 
     ```python
     from Nipype import Workflow
-    wf = Workflow(name="smoothflow", base_dir=expanduser('~/output/working_dir'))
+    wf = Workflow(name="smoothflow", base_dir='output/working_dir')
     wf.connect([(smooth, mask, [("out_file", "in_file")])])
     ```
 

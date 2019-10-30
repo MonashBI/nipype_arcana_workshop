@@ -7,7 +7,7 @@ from nipype import Workflow, Node
 from nipype.interfaces.fsl import Info
 
 # Specify variables
-experiment_dir = expanduser('~/output/')
+experiment_dir = op.abspath('output/')
 output_dir = 'antsdir'
 working_dir = 'workingdir'
 subject_list = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10']

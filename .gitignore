@@ -2,4 +2,7 @@
 .DS_Store
 *-checkpoint.ipynb
 notebooks/nilearn_cache
+notebooks/output
+notebooks/data/ds000114
+notebooks/data/atlases
 notebooks/preproc*
