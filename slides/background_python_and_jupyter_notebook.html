@@ -329,7 +329,7 @@ class: left
 layout: false
 name: intro
 
-## Python - Important to know 1
+## Python - Important to know - Part 1
 
 ```python
 # Modules & Help
@@ -357,6 +357,16 @@ name: intro
 >>> my_list[1], my_list[0]
 'two', 'one'
 ```
+---
+name: important2
+
+## Python - Important to know - Part 2
+
+```python
+# List comprehension
+>>> [i**2 for i in range(5)]
+[0, 1, 4, 9, 16]
+```
 --
 ```python
 # Lists, Tuples, Dictionaries
@@ -369,19 +379,10 @@ name: intro
 ```
 
 ---
-name: important2
-class: left
-layout: false
-name: intro
+name: important3
 
-## Python - Important to know 2
+## Python - Important to know - Part 3
 
-```python
-# List comprehension
->>> [i**2 for i in range(5)]
-[0, 1, 4, 9, 16]
-```
---
 ```python
 # Strict indentation (number of leading spaces v. important!)
 def square_positive_odd_number(number):
@@ -406,7 +407,96 @@ for i in range(-5, 20):
 ```
 
 ---
+name: oo_design_why
 
+## Object-Orientated (OO) Software Design
+
+* An architecture that makes large/complex programs easier to understand
+
+    * Echos how humans understand our environment
+
+* e.g. A traffic simulator might decompose the data and rules of a road system into classes of objects with different attributes, states and actions:
+  * Cars &rarr; driving/reaction speed, travel distance, prob. of turn/crash
+  * Traffic-lights &rarr; frequency, prob. of breaking down
+  * Roads &rarr; Number of lanes, surface
+
+
+<img src="images/traffic.jpg" width="75%" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+
+---
+name: oo_classes_objects
+
+## Relationship Between Objects and Classes
+
+* Classes are "blueprints" of objects designed by the developer
+  * Define attributes, state variables and "methods" that operate on them
+  * Modularises code into reusable components
+
+* Objects are "instantiated" from classes when the user runs the program
+
+<img src="images/blueprint.jpg" width="75%" style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
+
+---
+
+name: oo_design_how
+
+## Key Concepts of Object-Orientated Programming
+
+Four main principles of object-orientated programming:
+
+* Encapsulation
+
+* Abstraction
+
+* Inheritance
+
+* Polymorphism.
+
+See <a href="https://www.freecodecamp.org/news/object-oriented-programming-concepts-21bb035f7260/">this webpage</a> for a more detailed description
+
+---
+name: oo_encapsulation
+
+## Encapsulation
+
+*
+
+<img src="images/encapsulation.png" width="75%"
+  style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
+
+---
+
+name: oo_abstraction
+
+## Abstraction
+
+*
+
+<img src="images/abstraction.png" width="75%"
+  style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
+
+---
+name: oo_inheritance
+
+## Inheritance
+
+*
+
+<img src="images/inheritance.png" width="75%"
+  style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
+
+---
+
+name: oo_polymorphism
+
+## Polymorphism
+
+*
+
+<img src="images/polymorphism.png" width="75%"
+  style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
+
+---
 name: exercise
 
 .left-column[
@@ -417,12 +507,13 @@ name: exercise
 
 ## Object-orientated progamming
 
-Please go through the [`Classes & Objects jupyter notebook`](../../notebooks/notebooks/introduction_oo.ipynb) now
+Please go through the [`Classes & Objects jupyter notebook`](../../notebooks/notebooks/introduction_oo.ipynb) to
+learn how to create and use classes and objects in Python
+
 *(right-click to open in new tab)*
 
 ---
 
----
 layout: true
 class: center, middle, inverse
 ---
