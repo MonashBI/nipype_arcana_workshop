@@ -1,5 +1,5 @@
 # Import modules
-from os.path import join as opj, expanduser
+import os.path as op
 from nipype.interfaces.ants import Registration
 from nipype.interfaces.utility import IdentityInterface
 from nipype.interfaces.io import SelectFiles, DataSink
@@ -13,9 +13,9 @@ working_dir = 'workingdir'
 subject_list = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10']
 
 # Location of template file
-template = op.abspath('data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c/1mm_T1.nii.gz')
+template = op.abspath(
+    'data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c/1mm_T1.nii.gz')
 # or alternatively template = Info.standard_image('MNI152_T1_1mm.nii.gz')
-
 # Registration - computes registration between subject's anatomy & the MNI template
 antsreg = Node(Registration(args='--float',
                             collapse_output_transforms=True,
@@ -56,7 +56,8 @@ infosource = Node(IdentityInterface(fields=['subject_id']),
 infosource.iterables = [('subject_id', subject_list)]
 
 # SelectFiles - to grab the data (alternative to DataGrabber)
-anat_file = opj('sub-{subject_id}', 'ses-test', 'anat', 'sub-{subject_id}_ses-test_T1w.nii.gz')
+anat_file = op.join('sub-{subject_id}', 'ses-test', 'anat',
+                    'sub-{subject_id}_ses-test_T1w.nii.gz')
 templates = {'anat': anat_file}
 
 selectfiles = Node(SelectFiles(templates,
@@ -77,7 +78,7 @@ datasink.inputs.substitutions = substitutions
 
 # Initiation of the ANTS normalization workflow
 regflow = Workflow(name='regflow')
-regflow.base_dir = opj(experiment_dir, working_dir)
+regflow.base_dir = op.join(experiment_dir, working_dir)
 
 # Connect workflow nodes
 regflow.connect([(infosource, selectfiles, [('subject_id', 'subject_id')]),
