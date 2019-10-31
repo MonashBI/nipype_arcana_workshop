@@ -69,7 +69,7 @@ RUN chown -R neuro /home/neuro/workshop
 
 USER neuro
 
-RUN ln -s /data/ds000114 notebooks/data/ds000114
+RUN ln -s /data/ds000114 /usr/share/fsl/data/atlases notebooks/data/
 
 RUN mkdir -p ~/.jupyter && echo 'c.NotebookApp.ip = "0.0.0.0"' > ~/.jupyter/jupyter_notebook_config.py
 
