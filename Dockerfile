@@ -46,7 +46,7 @@ RUN rm -rf /opt/conda/pkgs/*
 
 USER neuro
 
-RUN bash -c 'source activate neuro && datalad get -J 1 -r /data/ds000114'
+RUN bash -c 'source activate neuro && datalad get -J 1 -r /data/ds000114/*'
 
 #------------------------------------------------
 # Copy workshop notebooks into image and clean up
