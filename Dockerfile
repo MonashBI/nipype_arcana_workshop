@@ -68,6 +68,12 @@ COPY ["notebooks", "/home/neuro/workshop/notebooks"]
 
 COPY ["slides", "/home/neuro/workshop/slides"]
 
+COPY ["static", "/home/neuro/workshop/static"]
+
+COPY ["LICENSE", "/home/neuro/workshop/LICENSE"]
+
+COPY ["CODE_OF_CONDUCT.md", "/home/neuro/workshop/CODE_OF_CONDUCT.md"]
+
 RUN chown -R neuro /home/neuro/workshop
 
 USER neuro
