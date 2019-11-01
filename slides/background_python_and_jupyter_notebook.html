@@ -170,9 +170,10 @@ name: inverse
 layout: true
 class: center, middle, inverse
 ---
-# Short introduction to Python
-# & Jupyter Notebook
-### ~60min
+# Short introduction to Python,
+# Jupyter Notebooks,
+# Object-Orientated Software Design
+### ~75min
 ---
 name: content
 class: left
@@ -412,10 +413,8 @@ name: oo_design_why
 ## Object-Orientated (OO) Software Design
 
 * An architecture that makes large/complex programs easier to understand
-
-    * Echos how humans understand our environment
-
-* e.g. A traffic simulator might decompose the data and rules of a road system into classes of objects with different attributes, states and actions:
+    * Aligns with how we understand our environment
+* A traffic simulator might decompose road system into objects with the following attr.s, states and *actions*
   * Cars &rarr; max. acc/deceleration, location, current speed
   * Drivers &rarr; reaction speed, tiredness/intoxication, *prob. of accident*
   * Routes &rarr; start and endpoints, *calculate tolls*
@@ -423,20 +422,20 @@ name: oo_design_why
   * Roads &rarr; Number of lanes, surface, load, *when roadworks required*
 
 
-<img src="images/traffic.jpg" width="75%" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+<img src="images/traffic.jpg" width="100%" style="display: block; margin-left: auto; margin-right: auto; width: 60%;"/>
 
 ---
 name: oo_classes_objects
 
 ## Relationship Between Objects and Classes
 
-* Classes are "blueprints" of objects designed by the developer
+* Classes are "blueprints" of objects, which are designed by the developer
   * Define attributes, state variables and "methods" that operate on them
   * Modularises code into reusable components
 
 * Objects are "instantiated" from classes when the user runs the program
 
-<img src="images/blueprint.jpg" width="75%" style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
+<img src="images/blueprint.jpg" width="75%" style="display: block; margin-left: auto; margin-right: auto; width: 60%; margin-top: 5%;" />
 
 ---
 
@@ -463,14 +462,13 @@ name: oo_encapsulation
 
 * Allows interactions with other objects/modules in a safe manner
     * Internal variables are only set by methods of the object
-    * Prevents objects getting into a non-sensical states
-
-* *Note:* Encapsulation is not enforced in Python
-    * "We're all consenting adults here" -- Guido Van Rossum, BDFL
-    * Indicated by strong naming convention using names starting with '_'
+    * Prevents objects getting into a non-sensical states (e.g. hungry+happy)
+* Encapsulation is not enforced in Python
+    * <a href="https://mail.python.org/pipermail/tutor/2003-October/025932.html">"We're all consenting adults here"</a> -- Guido Van Rossum, BDFL
+    * Indicated by names starting with '_', e.g. '_my_private_method'
 
 <img src="images/encapsulation.png" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
+  style="display: block; margin-left: auto; margin-right: auto; width: 75%; margin-top: 5%;" />
 
 ---
 
@@ -478,20 +476,24 @@ name: oo_abstraction
 
 ## Abstraction
 
-*
+* Implementation details are hidden-away within class/object methods
+* Write "high-level" code w/o having to keep the details in mind
+* Key for collaborations as you don't have understand someone else's code!
 
 <img src="images/abstraction.png" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
+  style="display: block; margin-left: auto; margin-right: auto; width: 75%; margin-top: 5%;" />
 
 ---
 name: oo_inheritance
 
 ## Inheritance
 
-*
+* Share code between similar objects using hierarchical classifications
+* Attributes/methods are "inherited" from base classes
+* Sub-classes can add new attr/methods and "override" inherited ones
 
 <img src="images/inheritance.png" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
+  style="display: block; margin-left: auto; margin-right: auto; width: 75%; margin-top: 5%;" />
 
 ---
 
@@ -499,10 +501,13 @@ name: oo_polymorphism
 
 ## Polymorphism
 
-*
+* Don't care exactly what type of object you are operating on
+    * e.g. teachers and students can both be treated as a person
+* <a href="https://en.wikipedia.org/wiki/Duck_typing">"Duck-typing"</a> can be used in Python (if it walks and quacks like a duck...)
+    * Classes don't need same base class to be treated the same
 
 <img src="images/polymorphism.png" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-top: 5%;" />
+  style="display: block; margin-left: auto; margin-right: auto; width: 75%; margin-top: 5%;" />
 
 ---
 name: exercise
