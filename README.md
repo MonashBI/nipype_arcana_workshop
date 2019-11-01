@@ -12,6 +12,8 @@ This repository contains everything for the *Automating Neuroimaging Analysis Wo
 
 If you get access to the Characterisation Virtual Laboratory (CVL) before the workshop (recommended option) then all the software tools requirements are already installed and ready for you to use. To create an account on CVL@ MASSIVE you need your institutional email. Follow the instructions here: https://www.cvl.org.au/cvl-desktop/cvl-accounts and join project `ds67`. The CVL aims at giving you (and researchers in Australia) resources such as compute nodes, RAM and GPU to do computational analysis through a virtual desktop. It has all the software required installed and runs using the high performance compute power of MASSIVE. If you have specific questions or issues with the creation of your account, feel free to email help@massive.org.au or check the useful documentation https://docs.massive.org.au/.
 
+Once you have an account please follow the instructions under "Configuring your CVL Account" on the [program](https://nbviewer.jupyter.org/github/MonashBI/nipype_arcana_workshop/blob/master/program.ipynb) to get up and running.
+
 If you would like to run the materials from your own system there are (at least) three ways that you can configure it, make sure you do this before the day of the workshop:
 
 ## 1. Docker
