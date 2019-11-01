@@ -103,8 +103,17 @@ Conda integrates package management for Python and non-Python dependencies into 
 Once you have your virtual environment installed (either by `venv` or `conda`) you should clone this repository, download the test data and start Jupyter notebook with the following commands:
 
 1. Using [Git](https://git-scm.com), clone [this repository](https://github.com/MonashBI/nipype_arcana_workshop/archive/master.zip) somewhere sensible on your workstation i.e. (`~/git/arcana-workshop`).
-2. Download the ["A test-retest fMRI dataset for motor, language and spatial attention functions" dataset by Gorgolewski et al. from OpenNeuro.org](https://openneuro.org/datasets/ds000114/versions/00003) and save it as 'ds000114' in the 'notebooks/data' sub-directory of the cloned repository.
-3. Go to the root of the cloned repo and run the following command from the folder that contains the `program.ipynb` notebook: `jupyter notebook program.ipynb`. This should open a neuro window in your browser with the address 'http://localhost:8888'.
+2. Download the ["A test-retest fMRI dataset for motor, language and spatial attention functions" dataset by Gorgolewski et al.](https://openneuro.org/datasets/ds000114/versions/00003) + derivatives using [Datalad](https://www.datalad.org) in the 'notebooks/data' sub-directory of the cloned repository.
+   ```bash
+   cd notebooks/data
+   datalad install -r ///workshops/nih-2017/ds000114
+   cd ds000114
+   datalad update -r
+   datalad get -r .
+   ```
+3. Symlink the `$FSLDIR/data/atlases` directory into the `notebooks/data` sub-directory
+4. Create the `notebooks/data/output` directory
+5. Go to the root of the cloned repo and run the following command: `jupyter notebook program.ipynb`. This should open a new window in your browser with the address 'http://localhost:8888'.
 
 
 ## 3. Jupyter NBViewer
