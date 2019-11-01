@@ -60,9 +60,6 @@ RUN bash -c 'source activate neuro && datalad get -J 4 -r \
 
 USER root
 
-
-RUN chown -R neuro /data/adhd
-
 COPY ["test_notebooks.py", "/home/neuro/workshop/test_notebooks.py"]
 
 COPY ["program.ipynb", "/home/neuro/workshop/program.ipynb"]
