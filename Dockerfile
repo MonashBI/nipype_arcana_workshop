@@ -46,7 +46,7 @@ RUN rm -rf /opt/conda/pkgs/*
 
 USER neuro
 
-RUN bash -c 'source activate neuro && datalad get -J 4 -r && \
+RUN bash -c 'source activate neuro && datalad get -J 4 -r \
     /data/ds000114/dataset_description.json \
     /data/ds000114/dwi* \
     /data/ds000114/sub* \
