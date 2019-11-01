@@ -72,15 +72,16 @@ RUN chown -R neuro /home/neuro/workshop
 
 USER neuro
 
+WORKDIR /home/neuro/workshop
+
 RUN ln -s /data/ds000114 /usr/share/fsl/data/atlases notebooks/data/
 
 RUN ln -s /output notebooks/
 
 RUN mkdir -p ~/.jupyter && echo 'c.NotebookApp.ip = "0.0.0.0"' > ~/.jupyter/jupyter_notebook_config.py
 
-WORKDIR /home/neuro/workshop
-
 RUN mkdir -p ~/.ipython/profile_default/startup/
+
 RUN printf "import warnings\nwarnings.filterwarnings('ignore')" > ~/.ipython/profile_default/startup/disable-warnings.py
 
 CMD ["jupyter-notebook", "program.ipynb"]
