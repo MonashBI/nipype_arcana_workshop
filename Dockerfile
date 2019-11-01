@@ -46,7 +46,13 @@ RUN rm -rf /opt/conda/pkgs/*
 
 USER neuro
 
-RUN bash -c 'source activate neuro && datalad get -J 1 -r /data/ds000114/*'
+RUN bash -c 'source activate neuro && datalad get -J 4 -r && \
+    /data/ds000114/dataset_description.json \
+    /data/ds000114/dwi* \
+    /data/ds000114/sub* \
+    /data/ds000114/task-* \
+    /data/ds000114/derivatives/freesurfer/sub-01 \
+    /data/ds000114/derivatives/fmriprep/sub-01/ses-test/func/*fingerfootlips*'
 
 #------------------------------------------------
 # Copy workshop notebooks into image and clean up
