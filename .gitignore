@@ -6,3 +6,5 @@ notebooks/output
 notebooks/data/ds000114
 notebooks/data/atlases
 notebooks/preproc*
+pyscript.m
+newscript.m
