@@ -184,74 +184,52 @@ name: intro
 
 * What do we mean by [object-orientated](background_python_and_jupyter_notebook.html#24) analysis?
 
-* Nipype objects/classes relate to workflow concepts
+* Nipype classes/objects relate to workflow concepts
   * Interfaces
   * Nodes
   * Workflows
   * Execution Plugins
 
-* Arcana makes the analyses themselves object-orientated
+* Arcana makes the analyses themselves classes/objects
 
-  * Encapsulate data and methods
-  * Derivatives generated as required
+  * *Analysis* (a.k.a. *Study* in [manuscript](https://dx.doi.org/10.1007/s12021-019-09430-1)) classes specialised dataset type (e.g. DWI, FLAIR, PET)
+  * *Analysis* objects instantiated in application to a specific dataset
+  * Selected derivatives generated on request
+      * Intermediate derivatives stored in repository
+      * Reused between requests
 
 ---
 
-## Advantages of Object-Orientated Approach
+## Key Advantages of Object-Orientated Approach
 
-* Separate design from application (classes vs objects)
-    * Highly portable
+* "Arcana" (secrets/mysteries) encapsulated by modular pipelines and meta-parameters
 
-* Utilise object-orientated features
-    * Abstraction/Encapsulation
-    * Inheritance
-    * Polymorphism
+* Portable due to separation of design from application (classes vs objects)
+
+* Customisable/extensible via class inheritance
+
+    * Safely specialise to needs of your study
 
   <img src="images/oo-concepts.png" width="100%"
-      style="display: block; margin-left: auto; margin-right: 5%; width: 60%; margin-top: 0%;" />
-
----
-name: arcana_encapsulation
-
-## Abstraction/Encapsulation in Arcana
-
-* "Arcana" of analysis is captured in 
-
-<img src="images/abstraction.png" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 60%; margin-top: 5%;" />
-
----
-name: arcana_inheritance
-
-## Inheritance
-
-* Share code between similar objects using hierarchical classifications
-
-* Attributes/methods are "inherited" from base classes
-
-* Sub-classes can add new attr/methods and "override" inherited ones
-
-<img src="images/inheritance.png" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 60%; margin-top: 5%;" />
+      style="display: block; margin-left: auto; margin-right: 0%; width: 60%; margin-top: 0%;" />
 
 ---
 
-name: arcana_polymorphism
+## Anatomy of an Analysis Class
 
-## Polymorphism in Arcana
+* Data specification (file-sets or fields)
+  * Lists all data associated with analysis
+  * Inputs and derivatives
+<img src="images/example_study.svg" width="100%"
+  style="float: right; margin-left: auto; margin-right: 0%; width: 50%; margin-top: 0%;" />
 
-* 
+* (Meta-)parameter specification
+  * Switch toolkits (e.g. ANTs for FSL)
+  * Free parameters
 
-
-<img src="images/polymorphism.png" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 60%; margin-top: 5%;" />
-
-
----
-
-* Data specification
-* Parameter specification
 * Pipeline constructor methods
+  * Inputs drawn from data spec.
+  * Outputs linked to derivatives in data spec.
 
 ---
 
@@ -280,11 +258,12 @@ analysis and the pipelines that generate them
 ```python
 class MyAnalysis(Analysis):
 
-add_data_specs = [
-FilesetSpec('magnitude', STD_IMAGE_FORMATS,
-desc="The magnitude image"),
-FilesetSpec('thresholded', nifti_gz_format, 'threshold_pipeline',
-desc="A thresholded magnitude Image")]
+    add_data_specs = [
+        FilesetSpec('magnitude', STD_IMAGE_FORMATS,
+                    desc="The magnitude image"),
+        FilesetSpec('thresholded', nifti_gz_format, 'threshold_pipeline',
+                    desc="A thresholded magnitude Image"),
+        FieldSpec('an_input_field', float)]
 ```
 
 --
@@ -295,30 +274,41 @@ desc="A thresholded magnitude Image")]
 class MyAnalysis(Analysis):
 ...
 
-add_param_specs = [
-ParamSpec('threshold', 0.5)]
+    add_param_specs = [
+        ParamSpec('threshold', 0.5),
+        SwitchSpec('bet_method', 'fsl')]
 ```
 
 ---
 
 ## Recap of designing Analysis classes - Part 2
 
-* **Pipeline getters**: methods that generate modular pipelines
+* **Pipeline constructors**: methods that generate modular pipelines
 
 ```python
-class MyStudy(Study):
+class MyAnalysis(Analysis):
 ...
 
-def threshold_pipeline(self, **name_maps):
-pipeline = self.new_pipeline('threshold', name_maps=name_maps)
-pipeline.add('mrthreshold',
-mrtrix.MRThreshold(
-abs=self.parameter('threshold')),
-inputs={
-'in_file': ('magnitude', mrtrix_image_format)},
-outputs={
-'threshold': ('out_file', mrtrix_image_format)})
-return pipeline
+  def threshold_pipeline(self, **name_maps):
+      pipeline = self.new_pipeline('threshold', name_maps=name_maps)
+
+      mrthreshold = pipeline.add(
+          'mrthreshold',
+          mrtrix.MRThreshold(
+              abs=self.parameter('threshold')),
+          inputs={
+              'in_file': ('magnitude', mrtrix_image_format)})
+
+      pipeline.add(
+          'fill_holes',
+          Dialate(
+              radius=2.0)),
+          inputs={
+              'in_file': (mrthreshold, 'out_file')},
+          outputs={
+              'thresholded': ('out_file', mrtrix_image_format)}
+
+      return pipeline
 ```
 
 ---
