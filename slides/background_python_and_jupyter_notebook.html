@@ -451,7 +451,7 @@ Four main principles of object-orientated programming:
 
 * Inheritance
 
-* Polymorphism.
+* Polymorphism
 
 See <a href="https://www.freecodecamp.org/news/object-oriented-programming-concepts-21bb035f7260/">this webpage</a> for a more detailed description
 
@@ -463,12 +463,13 @@ name: oo_encapsulation
 * Allows interactions with other objects/modules in a safe manner
     * Internal variables are only set by methods of the object
     * Prevents objects getting into a non-sensical states (e.g. hungry+happy)
-* Encapsulation is not enforced in Python
+
+* *Note:* encapsulation is not enforced in Python
     * <a href="https://mail.python.org/pipermail/tutor/2003-October/025932.html">"We're all consenting adults here"</a> -- Guido Van Rossum, BDFL
     * Indicated by names starting with '_', e.g. '_private_state_var'
 
 <img src="images/encapsulation.png" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 75%; margin-top: 5%;" />
+  style="display: block; margin-left: auto; margin-right: auto; width: 60%; margin-top: 5%;" />
 
 ---
 
@@ -477,11 +478,15 @@ name: oo_abstraction
 ## Abstraction
 
 * Implementation details are hidden-away within class/object methods
+
 * Write "high-level" code w/o having to keep the details in mind
-* Key for collaborations, don't have understand details of someone else's code!
+
+* Important for collaborative development
+
+  * i.e. you don't have understand details of someone else's code!
 
 <img src="images/abstraction.png" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 75%; margin-top: 5%;" />
+  style="display: block; margin-left: auto; margin-right: auto; width: 60%; margin-top: 5%;" />
 
 ---
 name: oo_inheritance
@@ -489,11 +494,13 @@ name: oo_inheritance
 ## Inheritance
 
 * Share code between similar objects using hierarchical classifications
+
 * Attributes/methods are "inherited" from base classes
+
 * Sub-classes can add new attr/methods and "override" inherited ones
 
 <img src="images/inheritance.png" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 75%; margin-top: 5%;" />
+  style="display: block; margin-left: auto; margin-right: auto; width: 60%; margin-top: 5%;" />
 
 ---
 
@@ -502,12 +509,13 @@ name: oo_polymorphism
 ## Polymorphism
 
 * Don't care exactly what type of object you are operating on
-    * e.g. teachers and students can both be treated as a person
+    * e.g. teachers and students can both be treated as people
+
 * <a href="https://en.wikipedia.org/wiki/Duck_typing">"Duck-typing"</a> can be used in Python (if it walks and quacks like a duck...)
     * Classes don't need same base class to be treated the same
 
 <img src="images/polymorphism.png" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 75%; margin-top: 5%;" />
+  style="display: block; margin-left: auto; margin-right: auto; width: 60%; margin-top: 5%;" />
 
 ---
 name: exercise

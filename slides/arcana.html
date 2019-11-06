@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Arcana: Object-Orientated Workflows</title>
+    <title>Arcana: Object-Orientated Analyses</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style>
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
@@ -171,7 +171,7 @@ layout: true
 class: center, middle, inverse
 ---
 # Arcana
-## Object-Orientated Workflows
+## Object-Orientated Analyses
 ### ~60min
 
 ---
@@ -179,6 +179,164 @@ name: content
 class: left
 layout: false
 name: intro
+
+## Object-Orientated Analyses
+
+* What do we mean by [object-orientated](background_python_and_jupyter_notebook.html#24) analysis?
+
+* Nipype objects/classes relate to workflow concepts
+  * Interfaces
+  * Nodes
+  * Workflows
+  * Execution Plugins
+
+* Arcana makes the analyses themselves object-orientated
+
+  * Separate design from application (classes vs objects)
+
+  * Smorgesboard of derivatives (pick & choose)
+
+  * Use object-orientated features
+      * Encapsulation/abstraction
+      * Inheritance
+      * Polymorphism
+
+---
+
+  * Data specification
+  * Parameter specification
+  * Pipeline constructor methods
+
+
+---
+name: arcana_encapsulation
+
+## Encapsulation/Abstraction in Arcana
+
+* 
+
+<img src="images/encapsulation.png" width="100%"
+  style="display: block; margin-left: auto; margin-right: auto; width: 60%; margin-top: 5%;" />
+
+---
+name: arcana_inheritance
+
+## Inheritance
+
+* Share code between similar objects using hierarchical classifications
+
+* Attributes/methods are "inherited" from base classes
+
+* Sub-classes can add new attr/methods and "override" inherited ones
+
+<img src="images/inheritance.png" width="100%"
+  style="display: block; margin-left: auto; margin-right: auto; width: 60%; margin-top: 5%;" />
+
+---
+
+name: arcana_polymorphism
+
+## Polymorphism
+
+* Don't care exactly what type of object you are operating on
+* e.g. teachers and students can both be treated as people
+
+* <a href="https://en.wikipedia.org/wiki/Duck_typing">"Duck-typing"</a> can be used in Python (if it walks and quacks
+like a duck...)
+* Classes don't need same base class to be treated the same
+
+<img src="images/polymorphism.png" width="100%"
+  style="display: block; margin-left: auto; margin-right: auto; width: 60%; margin-top: 5%;" />
+
+
+---
+name: content
+class: left
+layout: false
+name: intro
+
+.left-column[
+
+## Designing Analysis Classes
+### ~30min
+]
+
+.right-column[
+
+Please learn how to design analyses in Arcana by going through the
+[`Designing Analysis Classes Notebook`](../../notebooks/notebooks/arcana_design.ipynb)
+
+]
+
+
+---
+
+## Recap of designing Analysis classes - Part 1
+
+
+* **Data specification**: lists all files and scalar fields that are inputs/outputs/intermediate-derivatives of the
+analysis and the pipelines that generate them
+
+```python
+class MyAnalysis(Analysis):
+
+add_data_specs = [
+FilesetSpec('magnitude', STD_IMAGE_FORMATS,
+desc="The magnitude image"),
+FilesetSpec('thresholded', nifti_gz_format, 'threshold_pipeline',
+desc="A thresholded magnitude Image")]
+```
+
+--
+
+* **Parameter specification**: lists all parameters that are used to in the analysis
+
+```python
+class MyAnalysis(Analysis):
+...
+
+add_param_specs = [
+ParamSpec('threshold', 0.5)]
+```
+
+---
+
+## Recap of designing Analysis classes - Part 2
+
+* **Pipeline getters**: methods that generate modular pipelines
+
+```python
+class MyStudy(Study):
+...
+
+def threshold_pipeline(self, **name_maps):
+pipeline = self.new_pipeline('threshold', name_maps=name_maps)
+pipeline.add('mrthreshold',
+mrtrix.MRThreshold(
+abs=self.parameter('threshold')),
+inputs={
+'in_file': ('magnitude', mrtrix_image_format)},
+outputs={
+'threshold': ('out_file', mrtrix_image_format)})
+return pipeline
+```
+
+---
+name: arcana_overview
+
+## Overview of Arcana Object Interactions
+
+***Analysis*** Objects aggregate
+
+<img src="images/simplified_arcana_uml.svg" width="100%"
+  style="display: block; margin-left: auto; margin-right: auto; width: 100%; margin-top: 5%;" />
+
+  * Repositories and Datasets
+  * Software Environment (e.g. Modules, Docker)
+  * Processors (thin wrappers around Nipype Execution Plugins)
+  * Pipelines (thin wrappers around Nipype Workflows)
+
+---
 
 .left-column[
 
@@ -240,77 +398,6 @@ learn how to apply Arcana Study classes to a dataset.
 
     ```python
     study = Study(name='my_study', repo, processor, environment, inputs)
-    ```
-
----
-name: content
-class: left
-layout: false
-name: intro
-
-.left-column[
-
-## Designing Study Classes
-### ~30min
-]
-
-.right-column[
-
-Please learn how to design analyses in Arcana by going through the
-[`Designing Study Classes Notebook`](../../notebooks/notebooks/arcana_design.ipynb)
-
-]
-
-
----
-
-## Recap of designing Study classes - Part 1
-
-
-* **Data specification**: lists all files and scalar fields that are inputs/outputs/intermediate-derivatives of the analysis and the pipelines that generate them
-
-    ```python
-    class MyStudy(Study):
-
-        add_data_specs = [
-            FilesetSpec('magnitude', STD_IMAGE_FORMATS,
-                        desc="The magnitude image"),
-            FilesetSpec('thresholded', nifti_gz_format, 'threshold_pipeline',
-                        desc="A thresholded magnitude Image")]
-    ```
-
---
-
-* **Parameter specification**: lists all parameters that are used to in the analysis
-
-    ```python
-    class MyStudy(Study):
-        ...
-        
-        add_param_specs = [
-            ParamSpec('threshold', 0.5)]
-    ```
-
----
-
-## Recap of designing Study classes - Part 2
-
-* **Pipeline getters**: methods that generate modular pipelines
-
-    ```python
-    class MyStudy(Study):
-        ...
-
-        def threshold_pipeline(self, **name_maps):
-            pipeline = self.new_pipeline('threshold', name_maps=name_maps)
-            pipeline.add('mrthreshold',
-                         mrtrix.MRThreshold(
-                             abs=self.parameter('threshold')),
-                         inputs={
-                             'in_file': ('magnitude', mrtrix_image_format)},
-                         outputs={
-                             'threshold': ('out_file', mrtrix_image_format)})
-            return pipeline
     ```
 ---
 

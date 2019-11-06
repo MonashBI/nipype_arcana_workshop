@@ -19,11 +19,11 @@ nilearn
 nipy
 nipype
 nistats
-matplotlib
+matplotlib==3.0.2
 nose
 numpy
 pandas
-pingouin
+pingouin==0.2.9
 plotly
 git+https://github.com/bids-standard/pybids.git
 pytest
