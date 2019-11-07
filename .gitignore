@@ -2,6 +2,10 @@
 .DS_Store
 *-checkpoint.ipynb
 notebooks/nilearn_cache
+notebooks/ex1
+notebooks/exercise1
+notebooks/choosing_subjects
+notebooks/susan_workflow*
 notebooks/output
 notebooks/data/ds000114
 notebooks/data/atlases
