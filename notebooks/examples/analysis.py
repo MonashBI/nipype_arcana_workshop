@@ -1,4 +1,5 @@
 
+import matplotlib.pyplot as plt
 from nipype.interfaces import fsl
 from nipype.interfaces.utility import Merge
 from arcana import (Study, StudyMetaClass, ParamSpec, InputFilesetSpec,
@@ -84,7 +85,6 @@ class ExampleStudy(Study, metaclass=StudyMetaClass):
         return pipeline
 
 
-
 nifti_gz_format = FileFormat(name='nifti_gz', extension='.nii.gz',
                              resource_names={'xnat': ['NiFTI_GZ',
                                                       'NIFTI_GZ']})
@@ -95,10 +95,12 @@ class SkullStripSmoothMaskAnalysis(Study):
     add_data_specs = [
         InputFilesetSpec('magnitude', nifti_gz_format),
         FilesetSpec('brain', nifti_gz_format, 'brain_extraction_pipeline'),
+        FilesetSpec('brain_mask', nifti_gz_format,
+                    'brain_extraction_pipeline'),
         FilesetSpec('smooth_masked', nifti_gz_format, 'smooth_mask_pipeline')]
 
     add_param_specs = [
-        ParamSpec('fwhm', 4.0)]
+        ParamSpec('smoothing_fwhm', 4.0)]
 
     def brain_extraction_pipeline(self, **name_maps):
 
@@ -114,39 +116,48 @@ class SkullStripSmoothMaskAnalysis(Study):
             inputs={
                 'in_file': ('magnitude', nifti_gz_format)},
             outputs={
-                'brain': ('out_file', nifti_gz_format)})
+                'brain': ('out_file', nifti_gz_format),
+                'brain_mask': ('mask_file', nifti_gz_format)})
 
         return pipeline
-    
-    def 
-        # Skullstrip process
-        skullstrip = fsl.BET(
-            in_file="data/ds000114/sub-01/ses-test/anat/sub-01_ses-test_T1w.nii.gz",
-            out_file="output/sub-01_T1w_brain.nii.gz",
-            mask=True)
-        skullstrip.run()
 
-# Smoothing process
-smooth = fsl.IsotropicSmooth(
-    in_file="data/ds000114/sub-01/ses-test/anat/sub-01_ses-test_T1w.nii.gz",
-    out_file="output/sub-01_T1w_smooth.nii.gz",
-    fwhm=4)
-smooth.run()
+    def smooth_mask_pipeline(self, **name_maps):
 
-# Masking process
-mask = fsl.ApplyMask(
-    in_file="output/sub-01_T1w_smooth.nii.gz",
-    out_file="output/sub-01_T1w_smooth_mask.nii.gz",
-    mask_file="output/sub-01_T1w_brain_mask.nii.gz")
-mask.run()
+        pipeline = self.new_pipeline(
+            'smooth_mask',
+            desc="Smooths and masks a brain image",
+            name_maps=name_maps)
 
-f = plt.figure(figsize=(12, 4))
-for i, img in enumerate(["T1w", "T1w_smooth",
-                         "T1w_brain_mask", "T1w_smooth_mask"]):
-    f.add_subplot(1, 4, i + 1)
-    if i == 0:
-        plot_slice(
-            "data/ds000114/sub-01/ses-test/anat/sub-01_ses-test_%s.nii.gz" % img)
-    else:
-        plot_slice("output/sub-01_%s.nii.gz" % img)
-    plt.title(img)
+        # Smoothing process
+        smooth = pipeline.add(
+            'smooth',
+            fsl.IsotropicSmooth(
+                fwhm=self.parameter('smoothing_fwhm')),
+            inputs={
+                'in_file': ('magnitude', nifti_gz_format)},
+            outputs={
+                'smooth': ('out_file', nifti_gz_format)})
+
+        pipeline.add(
+            'mask',
+            fsl.ApplyMask(),
+            inputs={
+                'in_file': (smooth, 'out_file'),
+                'mask_file': ('brain_mask', nifti_gz_format)},
+            outputs={
+                'smooth_mask': ('out_file', nifti_gz_format)})
+
+        return pipeline
+
+    def plot_sices(self, figsize=(12, 4)):
+
+        f = plt.figure(figsize=(12, 4))
+        for i, img in enumerate(["T1w", "T1w_smooth",
+                                "T1w_brain_mask", "T1w_smooth_mask"]):
+            f.add_subplot(1, 4, i + 1)
+            if i == 0:
+                plot_slice(
+                    "data/ds000114/sub-01/ses-test/anat/sub-01_ses-test_%s.nii.gz" % img)
+            else:
+                plot_slice("output/sub-01_%s.nii.gz" % img)
+            plt.title(img)
