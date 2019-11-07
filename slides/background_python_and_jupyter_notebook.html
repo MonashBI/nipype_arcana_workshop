@@ -413,16 +413,30 @@ name: oo_design_why
 ## Object-Orientated (OO) Software Design
 
 * An architecture that makes large/complex programs easier to understand
-    * Aligns with how we understand our environment
-* A traffic simulator might decompose road system into objects with the following attr.s, states and *actions*
-  * Cars &rarr; max. acc/deceleration, location, current speed
-  * Drivers &rarr; reaction speed, tiredness/intoxication, *prob. of accident*
-  * Routes &rarr; start and endpoints, *calculate tolls*
-  * Traffic-lights &rarr; scheduled frequency, whether currently broken
-  * Roads &rarr; Number of lanes, surface, load, *when roadworks required*
+    * How we understand our environment
+
+<img src="images/traffic.jpg" width="100%"
+  style="float: right; margin-left: auto; margin-right: 0%; margin-top: 10%; width: 50%;" />
+
+* A traffic simulator might use:
+  * Cars
+      * **Max. acc/deceleration**
+      * Location
+      * Current speed
+  * Drivers
+      * **Reaction speed**
+      * Tiredness/intoxication
+      * *Prob. of accident*
+  * Traffic-lights
+      * **Scheduled frequency**
+      * Broken/not-broken**
+  * Roads
+      * **Number of lanes**
+      * **Surface**
+      * *When roadworks are required*
 
 
-<img src="images/traffic.jpg" width="100%" style="display: block; margin-left: auto; margin-right: auto; width: 60%;"/>
+
 
 ---
 name: oo_classes_objects

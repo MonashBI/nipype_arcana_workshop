@@ -161,6 +161,19 @@
         float: right;
         padding-top: 1em;
       }
+      figcaption {
+        text-align: center;
+        font-size: 80%;
+        font-weight: bold;
+        color: rgb(1, 103, 161);
+      }
+
+      .footer {
+        text-align: center;
+        padding-top: 3em;
+        color: rgb(1, 103, 161);
+      }
+
     </style>
   </head>
   <body>
@@ -182,54 +195,148 @@ name: intro
 
 ## Object-Orientated Analyses
 
-* What do we mean by [object-orientated](background_python_and_jupyter_notebook.html#24) analysis?
+* What do we mean by [object-orientated](background_python_and_jupyter_notebook.html#24)?
 
 * Nipype classes/objects relate to workflow concepts
-  * Interfaces
-  * Nodes
-  * Workflows
-  * Execution Plugins
+  * Interfaces, Nodes, Workflows, etc...
 
-* Arcana makes the analyses themselves classes/objects
+* In Arcana analyses are implemented in *Analysis* classes 
 
-  * *Analysis* (a.k.a. *Study* in [manuscript](https://dx.doi.org/10.1007/s12021-019-09430-1)) classes specialised dataset type (e.g. DWI, FLAIR, PET)
-  * *Analysis* objects instantiated in application to a specific dataset
-  * Selected derivatives generated on request
-      * Intermediate derivatives stored in repository
-      * Reused between requests
+  * Sub-classes specialised per dataset type (e.g. DWI, FLAIR, PET) or study
+
+  * *Analysis* objects created when analysis is applied to a specific dataset
+
+  * Select outputs generated from "derivatives menu" on user request
+      * Intermediate derivatives stored in repository for reuse
+
+<div class="footer">See <a href="https://dx.doi.org/10.1007/s12021-019-09430-1">
+  <i>NeuroInformatics</i> manuscript</a> for full details (<i>Analysis</i> a.k.a. <i>Study</i>)</div>
 
 ---
 
-## Key Advantages of Object-Orientated Approach
+## Key Advantages of Object-Orientated Analyses
 
-* "Arcana" (secrets/mysteries) encapsulated by modular pipelines and meta-parameters
+* "Arcana of neuroimaging" (secrets/mysteries) *encapsulated & abstracted* by modular pipelines and meta-parameters
 
 * Portable due to separation of design from application (classes vs objects)
 
-* Customisable/extensible via class inheritance
+* Customisable/extensible via *inheritance*
 
+    * Common operations implemented in base classes
     * Safely specialise to needs of your study
 
-  <img src="images/oo-concepts.png" width="100%"
-      style="display: block; margin-left: auto; margin-right: 0%; width: 60%; margin-top: 0%;" />
+<figure style="float: right; margin-left: auto; margin-right: 0%; width: 60%; margin-top: 0%;">
+  <img src="images/oo-concepts.png" width="100%"/>
+  
+</figure>
+
+---
+name: arcana_overview
+
+## Arcana Objects and Their Interactions
+
+<img src="images/simplified_arcana_uml.svg" width="100%"
+  style="display: block; margin-left: auto; margin-right: auto; width: 100%; margin-top: 10%;" />
+
+
+---
+
+.left-column[
+
+## Applying Analysis Classes
+### ~30min
+]
+
+.right-column[
+
+Please go through the [`Applying Analysis Classes Notebook`](../../notebooks/notebooks/arcana_application.ipynb)
+
+(Right-click and open in new tab)
+
+]
+
+---
+
+## Recap of Applying Arcana Analysis Classes - Part 1
+
+* **Repository**: The place where your data is stored
+
+```python
+from arcana import BasicRepo
+repo = BasicRepo('/path/to/your/directory')
+```
+
+--
+
+* **Processor**: How the data is to be processed
+
+```python
+from arcana import SingleProc
+processor = SingleProc('/path/to/work/dir', reprocess=True)
+```
+
+--
+
+* **Environment**: The software environment (i.e. toolkit versions) used
+
+```python
+from arcana import ModulesEnv
+environment = ModulesEnv(name_map={'fsl': 'fsl-parallel'})
+```
+
+---
+
+## Recap of Applying Arcana Analysis Classes - Part 2
+
+* **Input Filters**: Map elements in your dataset to the `data specification` of the Analysis class
+
+```python
+from arcana import InputFilesets
+inputs = [InputFilesets('magnitude', '.*t1.*')]
+```
+
+
+--
+
+* **Analysis**: The object that aggregates all aspects of the analysis application 
+
+```python
+my_analysis = SomeAnalysisClass(name='my_analysis',
+                                repository=repo,
+                                processor=processor,
+                                environment=environment,
+                                inputs=inputs,
+                                parameters={'threhold': 10.5,
+                                            'bet_method': 'fsl'})
+```
+
+--
+
+* Generate selected outputs from "derivatives menu"
+
+```python
+connectome, fa = my_analysis.derive('connectome', 'fa')
+```
 
 ---
 
 ## Anatomy of an Analysis Class
 
-* Data specification (file-sets or fields)
-  * Lists all data associated with analysis
-  * Inputs and derivatives
-<img src="images/example_study.svg" width="100%"
-  style="float: right; margin-left: auto; margin-right: 0%; width: 50%; margin-top: 0%;" />
+<figure style="float: right; margin-left: auto; margin-right: 0%; width: 50%; margin-top: 5%; ">
+  <img src="images/example_study.svg" width="100%" />
+  <figcaption>Incremental derivation of outputs</figcaption>
+</figure>
+
+* Data specification (files or fields)
+  * Both inputs and derivatives
 
 * (Meta-)parameter specification
-  * Switch toolkits (e.g. ANTs for FSL)
-  * Free parameters
+  * Switch toolkits (e.g. ANTs/FSL)
+  * Expose free parameters
 
 * Pipeline constructor methods
-  * Inputs drawn from data spec.
-  * Outputs linked to derivatives in data spec.
+  * Dynamically constructed
+  * Inputs/outputs ref. data spec.
 
 ---
 
@@ -241,8 +348,10 @@ name: intro
 
 .right-column[
 
-Please learn how to design analyses in Arcana by going through the
+Please go through the
 [`Designing Analysis Classes Notebook`](../../notebooks/notebooks/arcana_design.ipynb)
+
+(Right-click to open in new tab)
 
 ]
 
@@ -252,18 +361,19 @@ Please learn how to design analyses in Arcana by going through the
 ## Recap of designing Analysis classes - Part 1
 
 
-* **Data specification**: lists all files and scalar fields that are inputs/outputs/intermediate-derivatives of the
-analysis and the pipelines that generate them
+* **Data specification**: specifies data that are inputs, outputs and intermediate-derivatives of the
+analysis
+    * Either `Fileset` (a file, file + header, dir.) or `Field` (int, float, str,...) type
 
 ```python
-class MyAnalysis(Analysis):
+class MyAnalysisClass(Analysis):
 
     add_data_specs = [
         FilesetSpec('magnitude', STD_IMAGE_FORMATS,
                     desc="The magnitude image"),
         FilesetSpec('thresholded', nifti_gz_format, 'threshold_pipeline',
                     desc="A thresholded magnitude Image"),
-        FieldSpec('an_input_field', float)]
+        FieldSpec('an_input_field', float, array=True)]
 ```
 
 --
@@ -271,7 +381,7 @@ class MyAnalysis(Analysis):
 * **Parameter specification**: lists all parameters that are used to in the analysis
 
 ```python
-class MyAnalysis(Analysis):
+class MyAnalysisClass(Analysis):
 ...
 
     add_param_specs = [
@@ -286,7 +396,7 @@ class MyAnalysis(Analysis):
 * **Pipeline constructors**: methods that generate modular pipelines
 
 ```python
-class MyAnalysis(Analysis):
+class MyAnalysisClass(Analysis):
 ...
 
   def threshold_pipeline(self, **name_maps):
@@ -310,87 +420,9 @@ class MyAnalysis(Analysis):
 
       return pipeline
 ```
-
----
-name: arcana_overview
-
-## Overview of Arcana Object Interactions
-
-***Analysis*** Objects aggregate
-
-<img src="images/simplified_arcana_uml.svg" width="100%"
-  style="display: block; margin-left: auto; margin-right: auto; width: 100%; margin-top: 5%;" />
-
-  * Repositories and Datasets
-  * Software Environment (e.g. Modules, Docker)
-  * Processors (thin wrappers around Nipype Execution Plugins)
-  * Pipelines (thin wrappers around Nipype Workflows)
-
 ---
 
-.left-column[
-
-## Applying Study Classes
-### ~30min
-]
-
-.right-column[
-
-Please go through the [`Applying Arcana Study Classes Notebook`](../../notebooks/notebooks/arcana_application.ipynb) to 
-learn how to apply Arcana Study classes to a dataset.
-
-]
-
----
-
-## Recap of Applying Arcana Study Classes - Part 1
-
-* **Repository**: The place where your data is stored
-
-    ```python
-    from arcana import BasicRepo
-    repo = BasicRepo('/path/to/your/directory')
-    ```
-
---
-
-* **Processor**: How the data is to be processed
-
-    ```python
-    from arcana import LinearProc
-    processor = LinearProc('/path/to/work/dir', reprocess=True)
-    ```
-
---
-
-* **Environment**: The software environment (i.e. toolkit versions) used
-
-    ```python
-    from arcana import ModulesEnv
-    environment = ModulesEnv(name_map={'fsl': 'fsl-parallel'})
-    ```
-
----
-
-## Recap of Applying Arcana Study Classes - Part 2
-
-* **Inputs**: Mapping from files and fields in your dataset to the `data specification` of the Study class
-
-    ```python
-    from arcana import InputFilesets
-    inputs = [InputFilesets('magnitude', '.*t1.*')]
-    ```
-
-
---
-
-* **Study**: The object that ties together all aspects of the analysis
-
-    ```python
-    study = Study(name='my_study', repo, processor, environment, inputs)
-    ```
----
-
+name: inverse
 layout: true
 class: center, middle, inverse
 ---
