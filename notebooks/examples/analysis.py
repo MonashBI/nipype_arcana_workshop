@@ -1,11 +1,13 @@
 
+import nibabel as nb
+import numpy as np
 import matplotlib.pyplot as plt
 from nipype.interfaces import fsl
 from nipype.interfaces.utility import Merge
 from arcana import (Study, StudyMetaClass, ParamSpec, InputFilesetSpec,
                     FilesetSpec, FieldSpec)
-from arcana.data.file_format import text_format, FileFormat
-from .interfaces import Grep, Awk, ConcatFloats, ExtractMetrics
+from banana.file_format import text_format, nifti_gz_format
+from examples.interfaces import Grep, Awk, ConcatFloats, ExtractMetrics
 
 
 class ExampleStudy(Study, metaclass=StudyMetaClass):
@@ -85,18 +87,14 @@ class ExampleStudy(Study, metaclass=StudyMetaClass):
         return pipeline
 
 
-nifti_gz_format = FileFormat(name='nifti_gz', extension='.nii.gz',
-                             resource_names={'xnat': ['NiFTI_GZ',
-                                                      'NIFTI_GZ']})
-
-
-class SkullStripSmoothMaskAnalysis(Study):
+class BasicBrainAnalysis(Study, metaclass=StudyMetaClass):
 
     add_data_specs = [
         InputFilesetSpec('magnitude', nifti_gz_format),
         FilesetSpec('brain', nifti_gz_format, 'brain_extraction_pipeline'),
         FilesetSpec('brain_mask', nifti_gz_format,
                     'brain_extraction_pipeline'),
+        FilesetSpec('smooth', nifti_gz_format, 'smooth_mask_pipeline'),
         FilesetSpec('smooth_masked', nifti_gz_format, 'smooth_mask_pipeline')]
 
     add_param_specs = [
@@ -145,19 +143,51 @@ class SkullStripSmoothMaskAnalysis(Study):
                 'in_file': (smooth, 'out_file'),
                 'mask_file': ('brain_mask', nifti_gz_format)},
             outputs={
-                'smooth_mask': ('out_file', nifti_gz_format)})
+                'smooth_masked': ('out_file', nifti_gz_format)})
 
         return pipeline
 
-    def plot_sices(self, figsize=(12, 4)):
+    def plot_comparision(self, figsize=(12, 4)):
 
-        f = plt.figure(figsize=(12, 4))
-        for i, img in enumerate(["T1w", "T1w_smooth",
-                                "T1w_brain_mask", "T1w_smooth_mask"]):
-            f.add_subplot(1, 4, i + 1)
-            if i == 0:
-                plot_slice(
-                    "data/ds000114/sub-01/ses-test/anat/sub-01_ses-test_%s.nii.gz" % img)
-            else:
-                plot_slice("output/sub-01_%s.nii.gz" % img)
-            plt.title(img)
+        for subj_i in self.subject_ids:
+            for visit_i in self.visit_ids:
+                f = plt.figure(figsize=figsize)
+                f.suptitle('Subject "{}" - Visit "{}"'.format(subj_i, visit_i))
+                for i, spec_name in enumerate(['magnitude', 'smooth',
+                                               'brain_mask', 'smooth_masked']):
+                    f.add_subplot(1, 4, i + 1)
+                    self._plot_slice(spec_name, subj_i, visit_i)
+                    plt.title(spec_name)
+        plt.show()
+
+    def _plot_slice(self, spec_name, subject_id=None, visit_id=None):
+        # Load the image
+        data = self.data(spec_name).item(subject_id=subject_id,
+                                         visit_id=visit_id).get_array()
+
+        # Cut in the middle of the brain
+        cut = int(data.shape[-1] / 2) + 10
+
+        # Plot the data
+        plt.imshow(np.rot90(data[..., cut]), cmap="gray")
+        plt.gca().set_axis_off()
+
+
+if __name__ == '__main__':
+
+    from arcana import BasicRepo, SingleProc
+    import subprocess as sp
+
+    # sp.check_call(
+    #     'mkdir -p output/basic_brain/sub-01/ses-test;'
+    #     'ln -s $(pwd)/data/ds000114/sub-01/ses-test/anat/sub-01_ses-test_T1w.nii.gz '
+    #     'output/basic_brain/sub-01/ses-test/', shell=True)
+
+    analysis = BasicBrainAnalysis(
+        'test',
+        repository=BasicRepo('output/basic_brain'),
+        processor=SingleProc('output/work-dir'),
+        inputs={
+            'magnitude': 'sub-01_ses-test_T1w'})
+
+    analysis.plot_comparision()

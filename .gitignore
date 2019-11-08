@@ -12,3 +12,5 @@ notebooks/data/atlases
 notebooks/preproc*
 pyscript.m
 newscript.m
+__pycache__
+crash-*
