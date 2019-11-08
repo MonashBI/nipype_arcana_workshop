@@ -7,7 +7,7 @@ from nipype.interfaces.utility import Merge
 from arcana import (Study, StudyMetaClass, ParamSpec, InputFilesetSpec,
                     FilesetSpec, FieldSpec)
 from banana.file_format import text_format, nifti_gz_format
-from examples.interfaces import Grep, Awk, ConcatFloats, ExtractMetrics
+from example.interfaces import Grep, Awk, ConcatFloats, ExtractMetrics
 
 
 class ExampleStudy(Study, metaclass=StudyMetaClass):
@@ -88,17 +88,27 @@ class ExampleStudy(Study, metaclass=StudyMetaClass):
 
 
 class BasicBrainAnalysis(Study, metaclass=StudyMetaClass):
+    """
+    A baisc analysis class that demonstrates how Analysis classes work.
+    """
 
     add_data_specs = [
-        InputFilesetSpec('magnitude', nifti_gz_format),
-        FilesetSpec('brain', nifti_gz_format, 'brain_extraction_pipeline'),
+        InputFilesetSpec('magnitude', nifti_gz_format,
+                         desc="A magnitude image (e.g. T1w, T2w, etc..)"),
+        FilesetSpec('brain', nifti_gz_format, 'brain_extraction_pipeline',
+                    desc="Skull-stripped magnitude image"),
         FilesetSpec('brain_mask', nifti_gz_format,
-                    'brain_extraction_pipeline'),
-        FilesetSpec('smooth', nifti_gz_format, 'smooth_mask_pipeline'),
-        FilesetSpec('smooth_masked', nifti_gz_format, 'smooth_mask_pipeline')]
+                    'brain_extraction_pipeline',
+                    desc="Brain mask used for skull-stripping"),
+        FilesetSpec('smooth', nifti_gz_format, 'smooth_mask_pipeline',
+                    desc="Smoothed magnitude image"),
+        FilesetSpec('smooth_masked', nifti_gz_format, 'smooth_mask_pipeline',
+                    desc="Smoothed and masked magnitude image")]
 
     add_param_specs = [
-        ParamSpec('smoothing_fwhm', 4.0)]
+        ParamSpec('smoothing_fwhm', 4.0,
+                  desc=("The full-width-half-maxium radius of the smoothing "
+                        "kernel"))]
 
     def brain_extraction_pipeline(self, **name_maps):
 
