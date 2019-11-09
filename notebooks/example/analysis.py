@@ -17,9 +17,9 @@ class ExampleAnalysis(Analysis, metaclass=AnalysisMetaClass):
         FilesetSpec('selected_metric', text_format,
                     'extract_metrics_pipeline'),
         FieldSpec('average', float, 'statistics_pipeline',
-                  frequency='per_study'),
+                  frequency='per_dataset'),
         FieldSpec('std_dev', float, 'statistics_pipeline',
-                  frequency='per_study')]
+                  frequency='per_dataset')]
 
     add_param_specs = [
         ParamSpec('metric_of_interest', 'height')]

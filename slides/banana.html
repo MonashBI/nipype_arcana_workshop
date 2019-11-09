@@ -227,14 +227,14 @@ and extending existing classes [`Aggregating & Extending Analysis Classes Notebo
 ## Recap of Banana Command Line Interface
 
 
-* **Aggregating Analysis Classes**: Constrast-specific study classes can be aggregated within MultiAnalysis classes
+* **Aggregating Analysis Classes**: Constrast-specific analysis classes can be aggregated within MultiAnalysis classes
 
     ```python
     class T1AndDwiAnalysis(MultiAnalysis):
 
-        add_substudy_specs = [
-            SubAnalysisSpec('t1', T1Analysis),
-            SubAnalysisSpec('dwi', DwiAnalysis, map={'coreg_ref': 't1_magnitude'})]
+        add_subcomp_specs = [
+            SubCompSpec('t1', T1Analysis),
+            SubCompSpec('dwi', DwiAnalysis, map={'coreg_ref': 't1_magnitude'})]
     ```
 
 --
