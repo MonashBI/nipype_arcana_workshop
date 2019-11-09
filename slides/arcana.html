@@ -291,8 +291,8 @@ environment = ModulesEnv(name_map={'fsl': 'fsl-parallel'})
 * **Input Filters**: Map elements in your dataset to the `data specification` of the Analysis class
 
 ```python
-from arcana import InputFilesets
-inputs = [InputFilesets('magnitude', '.*t1.*')]
+from arcana import FilesetFilter
+inputs = [FilesetFilter('magnitude', '.*t1.*')]
 ```
 
 
