@@ -4,13 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from nipype.interfaces import fsl
 from nipype.interfaces.utility import Merge
-from arcana import (Study, StudyMetaClass, ParamSpec, InputFilesetSpec,
+from arcana import (Analysis, AnalysisMetaClass, ParamSpec, InputFilesetSpec,
                     FilesetSpec, FieldSpec)
 from banana.file_format import text_format, nifti_gz_format
 from example.interfaces import Grep, Awk, ConcatFloats, ExtractMetrics
 
 
-class ExampleStudy(Study, metaclass=StudyMetaClass):
+class ExampleAnalysis(Analysis, metaclass=AnalysisMetaClass):
 
     add_data_specs = [
         InputFilesetSpec('body_metrics', text_format),
@@ -87,7 +87,7 @@ class ExampleStudy(Study, metaclass=StudyMetaClass):
         return pipeline
 
 
-class BasicBrainAnalysis(Study, metaclass=StudyMetaClass):
+class BasicBrainAnalysis(Analysis, metaclass=AnalysisMetaClass):
     """
     A baisc analysis class that demonstrates how Analysis classes work.
     """

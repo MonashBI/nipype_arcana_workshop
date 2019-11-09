@@ -210,14 +210,14 @@ name: intro
 
 .left-column[
 
-## Aggregating and Extending Study Classes
+## Aggregating and Extending Analysis Classes
 ### ~30min
 ]
 
 .right-column[
 
 It is possible to customise Banana to your project by aggregating
-and extending existing classes [`Aggregating & Extending Study Classes Notebook`](../../notebooks/notebooks/banana_extend.ipynb) notebook
+and extending existing classes [`Aggregating & Extending Analysis Classes Notebook`](../../notebooks/notebooks/banana_extend.ipynb) notebook
 
 ]
 
@@ -227,14 +227,14 @@ and extending existing classes [`Aggregating & Extending Study Classes Notebook`
 ## Recap of Banana Command Line Interface
 
 
-* **Aggregating Study Classes**: Constrast-specific study classes can be aggregated within MultiStudy classes
+* **Aggregating Analysis Classes**: Constrast-specific study classes can be aggregated within MultiAnalysis classes
 
     ```python
-    class T1AndDwiStudy(MultiStudy):
+    class T1AndDwiAnalysis(MultiAnalysis):
 
         add_substudy_specs = [
-            SubStudySpec('t1', T1Study),
-            SubStudySpec('dwi', DwiStudy, map={'coreg_ref': 't1_magnitude'})]
+            SubAnalysisSpec('t1', T1Analysis),
+            SubAnalysisSpec('dwi', DwiAnalysis, map={'coreg_ref': 't1_magnitude'})]
     ```
 
 --
@@ -242,7 +242,7 @@ and extending existing classes [`Aggregating & Extending Study Classes Notebook`
 * **Extending Clases**: Banana classes can be extended to add new derivatives and methods to produce publication outputs.
 
     ```python
-    class MyPaperStudy(DwiStudy):
+    class MyPaperAnalysis(DwiAnalysis):
         
         def connectome_figure(self, output_fig):
             ...
