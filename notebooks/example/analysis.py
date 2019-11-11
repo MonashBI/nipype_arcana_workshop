@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from nipype.interfaces import fsl
 from nipype.interfaces.utility import Merge
 from arcana import (Analysis, AnalysisMetaClass, ParamSpec, InputFilesetSpec,
-                    FilesetSpec, FieldSpec)
+                    FilesetSpec, FieldSpec, Dataset)
 from banana.file_format import text_format, nifti_gz_format
 from example.interfaces import Grep, Awk, ConcatFloats, ExtractMetrics
 
@@ -185,17 +185,17 @@ class BasicBrainAnalysis(Analysis, metaclass=AnalysisMetaClass):
 
 if __name__ == '__main__':
 
-    from arcana import BasicRepo, SingleProc
+    from arcana import LocalFileSystemRepo, SingleProc
     import subprocess as sp
 
-    # sp.check_call(
-    #     'mkdir -p output/basic_brain/sub-01/ses-test;'
-    #     'ln -s $(pwd)/data/ds000114/sub-01/ses-test/anat/sub-01_ses-test_T1w.nii.gz '
-    #     'output/basic_brain/sub-01/ses-test/', shell=True)
+# sp.check_call(
+#     'mkdir -p output/basic_brain/sub-01/ses-test;'
+#     'ln -s $(pwd)/data/ds000114/sub-01/ses-test/anat/sub-01_ses-test_T1w.nii.gz '
+#     'output/basic_brain/sub-01/ses-test/', shell=True)
 
     analysis = BasicBrainAnalysis(
         'test',
-        repository=BasicRepo('output/basic_brain'),
+        dataset=Dataset('output/basic_brain'),
         processor=SingleProc('output/work-dir'),
         inputs={
             'magnitude': 'sub-01_ses-test_T1w'})

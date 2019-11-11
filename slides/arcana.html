@@ -259,11 +259,19 @@ Please go through the [`Applying Analysis Classes Notebook`](../../notebooks/not
 
 ## Recap of Applying Arcana Analysis Classes - Part 1
 
-* **Repository**: The place where your data is stored
+* **Dataset**: The place where your data is stored
 
 ```python
-from arcana import BasicRepo
-repo = BasicRepo('/path/to/your/directory')
+from arcana import Dataset
+dataset = Dataset('/path/to/your/directory')
+```
+
+or if the dataset is in an XNAT repository
+
+```python
+from arcana import XnatRepo
+dataset = XnatRepo('https://mbi-xnat.erc.monash.edu.au',
+                   '/tmp/cache').dataset('MYPROJECT')
 ```
 
 --
