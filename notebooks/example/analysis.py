@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 from nipype.interfaces import fsl
 from nipype.interfaces.utility import Merge
 from arcana import (Analysis, AnalysisMetaClass, ParamSpec, InputFilesetSpec,
-                    FilesetSpec, FieldSpec, Dataset)
+                    FilesetSpec, FieldSpec, Dataset, OutputFieldSpec,
+                    OutputFilesetSpec)
 from banana.file_format import text_format, nifti_gz_format
 from example.interfaces import Grep, Awk, ConcatFloats, ExtractMetrics
 
@@ -95,15 +96,17 @@ class BasicBrainAnalysis(Analysis, metaclass=AnalysisMetaClass):
     add_data_specs = [
         InputFilesetSpec('magnitude', nifti_gz_format,
                          desc="A magnitude image (e.g. T1w, T2w, etc..)"),
-        FilesetSpec('brain', nifti_gz_format, 'brain_extraction_pipeline',
-                    desc="Skull-stripped magnitude image"),
+        OutputFilesetSpec('brain', nifti_gz_format,
+                          'brain_extraction_pipeline',
+                          desc="Skull-stripped magnitude image"),
         FilesetSpec('brain_mask', nifti_gz_format,
                     'brain_extraction_pipeline',
                     desc="Brain mask used for skull-stripping"),
-        FilesetSpec('smooth', nifti_gz_format, 'smooth_mask_pipeline',
-                    desc="Smoothed magnitude image"),
-        FilesetSpec('smooth_masked', nifti_gz_format, 'smooth_mask_pipeline',
-                    desc="Smoothed and masked magnitude image")]
+        OutputFilesetSpec('smooth', nifti_gz_format, 'smooth_mask_pipeline',
+                          desc="Smoothed magnitude image"),
+        OutputFilesetSpec('smooth_masked', nifti_gz_format,
+                          'smooth_mask_pipeline',
+                          desc="Smoothed and masked magnitude image")]
 
     add_param_specs = [
         ParamSpec('smoothing_fwhm', 4.0,
@@ -172,8 +175,8 @@ class BasicBrainAnalysis(Analysis, metaclass=AnalysisMetaClass):
 
     def _plot_slice(self, spec_name, subject_id=None, visit_id=None):
         # Load the image
-        data = self.data(spec_name).item(subject_id=subject_id,
-                                         visit_id=visit_id).get_array()
+        data = self.derive(spec_name).item(subject_id=subject_id,
+                                           visit_id=visit_id).get_array()
 
         # Cut in the middle of the brain
         cut = int(data.shape[-1] / 2) + 10
