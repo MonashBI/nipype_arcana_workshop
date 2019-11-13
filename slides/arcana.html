@@ -323,7 +323,7 @@ my_analysis = SomeAnalysisClass(name='my_analysis',
 * Generate selected outputs from "derivatives menu"
 
 ```python
-connectome, fa = my_analysis.derive('connectome', 'fa')
+connectome, fa = my_analysis.data(('connectome', 'fa'), derive=True)
 ```
 
 ---
