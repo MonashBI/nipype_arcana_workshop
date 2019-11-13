@@ -19,11 +19,24 @@ RUN apt-get update -qq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+
+USER neuro
+
+#-----------------------------------------------
+# Download workshop required part of the dataset
+#-----------------------------------------------
+
+RUN bash -c 'source activate neuro && datalad get -J 4 -r \
+    /data/ds000114/dataset_description.json \
+    /data/ds000114/dwi* \
+    /data/ds000114/sub* \
+    /data/ds000114/task-* \
+    /data/ds000114/derivatives/freesurfer/sub-01 \
+    /data/ds000114/derivatives/fmriprep/sub-01/ses-test/func/*fingerfootlips*'
+
 #---------------------------------
 # Update conda environment 'neuro'
 #---------------------------------
-
-USER neuro
 
 COPY ["requirements.txt", "/requirements.txt"]
 
@@ -38,21 +51,7 @@ RUN conda install -y -q --name neuro bokeh \
     && rm -rf ~/.cache/pip/* \
     && sync
 
-#-----------------------------------------------
-# Download workshop required part of the dataset
-#-----------------------------------------------
-
 RUN rm -rf /opt/conda/pkgs/*
-
-USER neuro
-
-RUN bash -c 'source activate neuro && datalad get -J 4 -r \
-    /data/ds000114/dataset_description.json \
-    /data/ds000114/dwi* \
-    /data/ds000114/sub* \
-    /data/ds000114/task-* \
-    /data/ds000114/derivatives/freesurfer/sub-01 \
-    /data/ds000114/derivatives/fmriprep/sub-01/ses-test/func/*fingerfootlips*'
 
 #------------------------------------------------
 # Copy workshop notebooks into image and clean up
@@ -83,6 +82,8 @@ WORKDIR /home/neuro/workshop
 RUN ln -s /data/ds000114 /usr/share/fsl/data/atlases notebooks/data/
 
 RUN ln -s /output notebooks/
+
+RUN mkdir notebooks/work
 
 RUN mkdir -p ~/.jupyter && echo 'c.NotebookApp.ip = "0.0.0.0"' > ~/.jupyter/jupyter_notebook_config.py
 
