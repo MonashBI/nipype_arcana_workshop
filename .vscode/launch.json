@@ -19,6 +19,14 @@
             "program": "${workspaceFolder}/notebooks/example/analysis.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/notebooks"
+        },
+        {
+            "name": "Python: Test Entrypoint",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/test_entrypoint.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/notebooks"
         }
     ]
 }
