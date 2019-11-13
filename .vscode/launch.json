@@ -16,7 +16,7 @@
             "name": "Python: Example Analysis",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/notebooks/examples/analysis.py",
+            "program": "${workspaceFolder}/notebooks/example/analysis.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/notebooks"
         }

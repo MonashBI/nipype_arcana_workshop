@@ -266,7 +266,7 @@ from arcana import Dataset
 dataset = Dataset('/path/to/your/directory')
 ```
 
-or if the dataset is in an XNAT repository
+or
 
 ```python
 from arcana import XnatRepo
@@ -276,20 +276,20 @@ dataset = XnatRepo('https://mbi-xnat.erc.monash.edu.au',
 
 --
 
-* **Processor**: How the data is to be processed
-
-```python
-from arcana import SingleProc
-processor = SingleProc('/path/to/work/dir', reprocess=True)
-```
-
---
-
 * **Environment**: The software environment (i.e. toolkit versions) used
 
 ```python
 from arcana import ModulesEnv
-environment = ModulesEnv(name_map={'fsl': 'fsl-parallel'})
+environment = ModulesEnv(versions_map={fsl_req: {'6.0.2-parallel': '6.0.2'})
+```
+
+--
+
+* **Processor**: How the data is to be processed
+
+```python
+from arcana import MultiProc
+processor = MultiProc('/path/to/work/dir', num_processes=4, reprocess=True)
 ```
 
 ---
@@ -310,7 +310,7 @@ inputs = [FilesetFilter('magnitude', '.*t1.*')]
 
 ```python
 my_analysis = SomeAnalysisClass(name='my_analysis',
-                                repository=repo,
+                                dataset=dataset,
                                 processor=processor,
                                 environment=environment,
                                 inputs=inputs,
@@ -437,6 +437,7 @@ class: center, middle, inverse
 name: questions
 
 # Questions?
+Please make any feature requests on the GitHub repo github.com/MonashBI/arcana
 
     </textarea>
     <script src="remark-latest.min.js" type="text/javascript">

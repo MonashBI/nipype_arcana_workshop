@@ -8,22 +8,35 @@ from arcana import (Analysis, AnalysisMetaClass, ParamSpec, InputFilesetSpec,
                     FilesetSpec, FieldSpec, Dataset, OutputFieldSpec,
                     OutputFilesetSpec)
 from banana.file_format import text_format, nifti_gz_format
+from banana.requirement import fsl_req
 from example.interfaces import Grep, Awk, ConcatFloats, ExtractMetrics
 
 
-class ExampleAnalysis(Analysis, metaclass=AnalysisMetaClass):
+class ToyAnalysis(Analysis, metaclass=AnalysisMetaClass):
+    """
+    A Toy Analysis class that extracts metrics from text files and produces
+    summary statistics from them.
+    """
 
     add_data_specs = [
-        InputFilesetSpec('body_metrics', text_format),
+        InputFilesetSpec('body_metrics', text_format,
+                         desc=("Text file containing a range of basic body "
+                               "metrics on separate lines")),
         FilesetSpec('selected_metric', text_format,
-                    'extract_metrics_pipeline'),
-        FieldSpec('average', float, 'statistics_pipeline',
-                  frequency='per_dataset'),
-        FieldSpec('std_dev', float, 'statistics_pipeline',
-                  frequency='per_dataset')]
+                    'extract_metrics_pipeline',
+                    desc="The line containing the metric of interest"),
+        OutputFieldSpec('average', float, 'statistics_pipeline',
+                        frequency='per_dataset',
+                        desc=("The average of the selected metric across all "
+                              "subjects")),
+        OutputFieldSpec('std_dev', float, 'statistics_pipeline',
+                        frequency='per_dataset',
+                        desc= ("The std. dev. of the selected metric across "
+                               "all subjects"))]
 
     add_param_specs = [
-        ParamSpec('metric_of_interest', 'height')]
+        ParamSpec('metric_of_interest', 'height',
+                  "The metric of interest to extract from the files")]
 
     def extract_metrics_pipeline(self, **name_maps):
         pipeline = self.new_pipeline(
@@ -60,7 +73,9 @@ class ExampleAnalysis(Analysis, metaclass=AnalysisMetaClass):
             Merge(
                 numinputs=1),
             inputs={
-                'in1': ('selected_metric', text_format)})
+                'in1': ('selected_metric', text_format)},
+            joinsource=self.VISIT_ID,
+            joinfield=['in1'])
 
         merge_subjects = pipeline.add(
             'merge_subjects',
@@ -68,7 +83,9 @@ class ExampleAnalysis(Analysis, metaclass=AnalysisMetaClass):
                 numinputs=1,
                 ravel_inputs=True),
             inputs={
-                'in1': (merge_visits, 'out')})
+                'in1': (merge_visits, 'out')},
+            joinsource=self.SUBJECT_ID,
+            joinfield=['in1'])
 
         concat = pipeline.add(
             'concat',
@@ -128,7 +145,9 @@ class BasicBrainAnalysis(Analysis, metaclass=AnalysisMetaClass):
                 'in_file': ('magnitude', nifti_gz_format)},
             outputs={
                 'brain': ('out_file', nifti_gz_format),
-                'brain_mask': ('mask_file', nifti_gz_format)})
+                'brain_mask': ('mask_file', nifti_gz_format)},
+            requirements=[
+                fsl_req.v('5.0.10')])
 
         return pipeline
 
@@ -147,7 +166,9 @@ class BasicBrainAnalysis(Analysis, metaclass=AnalysisMetaClass):
             inputs={
                 'in_file': ('magnitude', nifti_gz_format)},
             outputs={
-                'smooth': ('out_file', nifti_gz_format)})
+                'smooth': ('out_file', nifti_gz_format)},
+            requirements=[
+                fsl_req.v('5.0.10')])
 
         pipeline.add(
             'mask',
@@ -156,7 +177,9 @@ class BasicBrainAnalysis(Analysis, metaclass=AnalysisMetaClass):
                 'in_file': (smooth, 'out_file'),
                 'mask_file': ('brain_mask', nifti_gz_format)},
             outputs={
-                'smooth_masked': ('out_file', nifti_gz_format)})
+                'smooth_masked': ('out_file', nifti_gz_format)},
+            requirements=[
+                fsl_req.v('5.0.10')])
 
         return pipeline
 
@@ -175,8 +198,8 @@ class BasicBrainAnalysis(Analysis, metaclass=AnalysisMetaClass):
 
     def _plot_slice(self, spec_name, subject_id=None, visit_id=None):
         # Load the image
-        data = self.derive(spec_name).item(subject_id=subject_id,
-                                           visit_id=visit_id).get_array()
+        data = self.data(spec_name, derive=True).item(
+            subject_id=subject_id, visit_id=visit_id).get_array()
 
         # Cut in the middle of the brain
         cut = int(data.shape[-1] / 2) + 10
@@ -188,19 +211,28 @@ class BasicBrainAnalysis(Analysis, metaclass=AnalysisMetaClass):
 
 if __name__ == '__main__':
 
-    from arcana import LocalFileSystemRepo, SingleProc
+    from arcana import FilesetFilter
     import subprocess as sp
 
-# sp.check_call(
-#     'mkdir -p output/basic_brain/sub-01/ses-test;'
-#     'ln -s $(pwd)/data/ds000114/sub-01/ses-test/anat/sub-01_ses-test_T1w.nii.gz '
-#     'output/basic_brain/sub-01/ses-test/', shell=True)
+    # analysis = BasicBrainAnalysis(
+    #     'toms_analysis',
+    #     dataset=Dataset('output/sample-datasets/depth1', depth=1),
+    #     processor='work/sample-test',
+    #     inputs=[
+    #         FilesetFilter('magnitude', '.*T1w$', is_regex=True)],
+    #     parameters={
+    #         'smoothing_fwhm': 5.0})
 
-    analysis = BasicBrainAnalysis(
-        'test',
-        dataset=Dataset('output/basic_brain'),
-        processor=SingleProc('output/work-dir'),
-        inputs={
-            'magnitude': 'sub-01_ses-test_T1w'})
+    # analysis.plot_comparision()
 
-    analysis.plot_comparision()
+    weight_analysis = ToyAnalysis(
+        'weight_analysis',  # The name needs to be the same as the previous version
+        dataset=Dataset('output/sample-datasets/toy-datasets', depth=2),
+        # If you just provide a work dir then SingleProc is assumed
+        processor='work/toy-analysis',
+        inputs={'body_metrics': 'metrics'},
+        parameters={'metric_of_interest': 'weight'})
+
+    weight_analysis.processor.reprocess = True
+
+    print(weight_analysis.data('std_dev', derive=True).value())

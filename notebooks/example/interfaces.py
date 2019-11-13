@@ -1,5 +1,6 @@
 import os
 import os.path as op
+import numpy
 from nipype.interfaces.base import (
     TraitedSpec, traits, File, isdefined,
     CommandLineInputSpec, CommandLine, BaseInterface,
@@ -128,7 +129,7 @@ class ExtractMetrics(BaseInterface):
     output_spec = ExtractMetricsOutputSpec
 
     def _list_outputs(self):
-        values = self.inputs.in_list
+        values = list(self.inputs.in_list)
         outputs = self._outputs().get()
         outputs['std'] = numpy.std(values)
         outputs['avg'] = numpy.average(values)
