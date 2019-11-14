@@ -175,10 +175,13 @@ class: center, middle, inverse
 ### ~60min
 
 ---
+name: content
+class: left
+layout: false
 
 ## Consolidating methods in base classes
 
-
+<img src="images/base-classes.svg" style="align: center; width: 100%;">
 
 ---
 name: content
@@ -202,11 +205,34 @@ the [`Banana CLI Notebook`](../../notebooks/notebooks/arcana_application.ipynb)
 
 ## Recap of Banana Command Line Interface
 
-* **Menu**: List all the derivatives that can be derived from your dataset
+* **Help**: See all commands
+
+```bash
+banana help
+```
+
+
+* **Avail**: List all available Analysis classes
+
+```bash
+banana avail
+```
+
+
+* **Menu**: List all the derivatives that can be derived from your dataset and parameters to use with them
+
+```bash
+banana menu mri.DwiAnalysis
+```
+
 
 --
 
 * **Derive**: Derive a derivative
+
+```bash
+banana derive data/ds000114 mri.T1wAnalysis my_analysis fs_recon_all
+```
 
 ---
 name: content
