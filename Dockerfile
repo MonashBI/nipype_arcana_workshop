@@ -19,7 +19,6 @@ RUN apt-get update -qq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-
 USER neuro
 
 #-----------------------------------------------
@@ -39,6 +38,8 @@ RUN bash -c 'source activate neuro && datalad get -J 4 -r \
 #---------------------------------
 
 COPY ["requirements.txt", "/requirements.txt"]
+
+ENV BUILD_FROM_HERE 1
 
 RUN conda install -y -q --name neuro bokeh \
                                      holoviews \
