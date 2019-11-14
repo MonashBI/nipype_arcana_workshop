@@ -8,6 +8,7 @@ from arcana import (Analysis, AnalysisMetaClass, ParamSpec, InputFilesetSpec,
                     FilesetSpec, FieldSpec, Dataset, OutputFieldSpec,
                     OutputFilesetSpec)
 from banana.file_format import text_format, nifti_gz_format
+from banana.citation import fsl_cite
 from banana.requirement import fsl_req
 from example.interfaces import Grep, Awk, ConcatFloats, ExtractMetrics
 
@@ -135,7 +136,8 @@ class BasicBrainAnalysis(Analysis, metaclass=AnalysisMetaClass):
         pipeline = self.new_pipeline(
             'brain_extraction',
             desc="Extracts brain from full-head image",
-            name_maps=name_maps)
+            name_maps=name_maps,
+            citations=[fsl_cite])
 
         pipeline.add(
             'bet',
@@ -156,7 +158,8 @@ class BasicBrainAnalysis(Analysis, metaclass=AnalysisMetaClass):
         pipeline = self.new_pipeline(
             'smooth_mask',
             desc="Smooths and masks a brain image",
-            name_maps=name_maps)
+            name_maps=name_maps,
+            citations=[fsl_cite])
 
         # Smoothing process
         smooth = pipeline.add(
