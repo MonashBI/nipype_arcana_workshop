@@ -1,4 +1,4 @@
-# Nipype, Arcana and Banana CVL Workshop - Melbourne 2019
+# Nipype, Arcana and Banana CVL Workshop - Melbourne 2019/Sydney 2020
 
 [![GitHub issues](https://img.shields.io/github/issues/MonashBI/nipype_arcana_workshop.svg)](https://github.com/MonashBI/nipype_arcana_workshop/issues/)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/MonashBI/nipype_arcana_workshop.svg)](https://github.com/MonashBI/nipype_arcana_workshop/pulls/)
