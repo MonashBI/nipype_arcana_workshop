@@ -34,7 +34,7 @@ Once docker is running on your system you can continue with downloading the dock
 
 Once the download finished, proceed with the following steps:
 
-1. Run the following command in a terminal: ```docker run -it --rm -p 8888:8888 monashbi/nipype_arcana_workshop```
+1. Run the following command in a terminal: ```docker run -it -p 8888:8888 monashbi/nipype_arcana_workshop```
 2. Copy paste the link that looks like ```http://20f109eba8e4:8888/?token=0312c1ef3b61d7a44ff5346d3d150c23249a548850e13868``` into your webbrowser.
 3. Replace the hash number ```20f109eba8e4``` after `http://` with `localhost` or your local IP (probably `192.168.99.100`) if you're on windows.
 4. Once Jupyter Notebook is open, click on the `program.ipynb` notebook, and you're good to go.
