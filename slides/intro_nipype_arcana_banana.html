@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Nipype Introduction</title>
+    <title>Nipype, Arcana & Banana Introduction</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style>
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
@@ -170,21 +170,37 @@ name: inverse
 layout: true
 class: center, middle, inverse
 ---
-# Introduction
-# to Nipype
+# Introduction to
+# Nipype, Arcana & Banana
 ---
 name: content
 class: left
 layout: false
 name: intro
 
-<img src="../static/images/logoNipype_text.png"  width="100%">
+## A little background
 
---
+- [Nipype: NeuroImaging in Python Pipelines and Interfaces](https://www.frontiersin.org/articles/10.3389/fninf.2011.00013/full) ([Github](https://github.com/nipy/nipype))
+    - Developed at Stanford and MIT \+ others
+    - fMRI Prep is implemented within it
+
+- [Arcana: Abstraction of Repository-Centric ANAlysis](https://dx.doi.org/10.1007/s12021-019-09430-1) ([Github](https://github.com/MonashBI/arcana))
+    - Developed at MBI
+    - Object-oriented, "data-centric" workflows
+    - Builds upon Nipype
+
+- [Banana: Brain ImAgiNg Analysis in Arcana](https://github.com/MonashBI/arcana)
+    - Under-development by ... you??
+    - Designed to facilitate collaborative approach
+    - Implemented in Arcana framework
+
+---
+
+<img src="../static/images/logoNipype_text.png"  width="100%">
 
 ## What is [Nipype](http://nipype.readthedocs.io/en/latest/)?
 
-- open-source, community-developed software package written in **Python**.
+
 
 - Provides unified way of **interfacing** with heterogeneous neuroimaging software like [SPM](http://www.fil.ion.ucl.ac.uk/spm/), [FSL](http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/), [FreeSurfer](http://surfer.nmr.mgh.harvard.edu/), [AFNI](https://afni.nimh.nih.gov/afni), [ANTS](http://stnava.github.io/ANTs/), [Camino](http://web4.cs.ucl.ac.uk/research/medic/camino/pmwiki/pmwiki.php), [MRtrix](http://www.brain.org.au/software/mrtrix/index.html), [MNE](https://martinos.org/mne/stable/index.html), [Slicer](https://www.slicer.org/) and many more.
 
@@ -395,6 +411,13 @@ Nipype consists of many parts, but the main ones are [Interfaces](basic_interfac
 * **Workflow**: A *graph* or *forest of graphs* whose edges represent data flow
 
 * **Plugin**: A component that describes how a `Workflow` should be executed
+
+
+---
+
+## What is Arcana?
+
+
 
     </textarea>
     <script src="remark-latest.min.js" type="text/javascript">
