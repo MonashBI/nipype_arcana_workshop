@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
             "name": "Python: Alternative Matlab Interface",
             "type": "python",
@@ -25,6 +26,14 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/scripts/test_entrypoint.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/notebooks"
+        },
+        {
+            "name": "Python: Banana extending",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/test_banana_extension.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/notebooks"
         }
